@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="store_colorPrimary">#1cc29e</color>
+    <color name="store_colorPrimaryDark">#1cc29e</color>
+    <color name="store_colorAccent">#FF4081</color>
+    <color name="store_blackText">#BB000000</color>
+    <color name="store_white">#FFF</color>
+</resources>

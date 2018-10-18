@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#cc000000"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/store_new_power_item_icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="16dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/store_new_power_item_icon"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/store_new_power_item_name"
+                android:layout_width="156dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/store_new_power_item_edit"
+                android:layout_width="156dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/store_new_power_item_down"
+            android:layout_width="64dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:text="下载"
+            android:textColor="#1cc29e"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/store_new_power_item_pic1"
+            android:layout_width="90dp"
+            android:layout_height="152dp" />
+
+        <ImageView
+            android:id="@+id/store_new_power_item_pic2"
+            android:layout_width="90dp"
+            android:layout_height="152dp"
+            android:layout_marginLeft="12dp" />
+
+        <ImageView
+            android:id="@+id/store_new_power_item_pic3"
+            android:layout_width="90dp"
+            android:layout_height="152dp"
+            android:layout_marginLeft="12dp" />
+    </LinearLayout>
+</LinearLayout>

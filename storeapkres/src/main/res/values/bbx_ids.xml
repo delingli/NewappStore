@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="notify_store_root" type="id" />
+    <item name="notify_store_icon" type="id" />
+    <item name="notify_store_title" type="id" />
+    <item name="notify_store_content" type="id" />
+    <item name="notify_store_open" type="id" />
+    <item name="notify_store_close" type="id" />
+
+    <item name="list_store_root" type="id" />
+    <item name="list_store_list" type="id" />
+    <item name="list_store_back" type="id" />
+    <item name="list_store_close" type="id" />
+
+    <item name="store_list_item_icon" type="id" />
+    <item name="store_list_item_name" type="id" />
+    <item name="store_list_item_count" type="id" />
+    <item name="store_list_item_size" type="id" />
+    <item name="store_list_item_version" type="id" />
+    <item name="store_list_item_down" type="id" />
+
+    <item name="detail_store_root" type="id" />
+    <item name="detail_store_back" type="id" />
+    <item name="detail_store_icon" type="id" />
+    <item name="detail_store_count" type="id" />
+    <item name="detail_store_size" type="id" />
+    <item name="detail_store_name" type="id" />
+    <item name="detail_store_down_app" type="id" />
+    <item name="detail_store_progress" type="id" />
+    <item name="detail_store_version_name" type="id" />
+    <item name="detail_store_star_count" type="id" />
+    <item name="detail_store_star" type="id" />
+    <item name="detail_store_iv1" type="id" />
+    <item name="detail_store_iv2" type="id" />
+    <item name="detail_store_newFeature" type="id" />
+    <item name="detail_store_description" type="id" />
+    <item name="detail_store_pkg_name" type="id" />
+    <item name="detail_store_update_time" type="id" />
+    <item name="detail_store_rom" type="id" />
+    <item name="detail_store_author_name" type="id" />
+    <item name="detail_store_detail" type="id" />
+    <item name="detail_store_close" type="id" />
+
+    <item name="store_rating_star1" type="id" />
+    <item name="store_rating_star2" type="id" />
+    <item name="store_rating_star3" type="id" />
+    <item name="store_rating_star4" type="id" />
+    <item name="store_rating_star5" type="id" />
+
+    <item name="wifi_store_root" type="id" />
+    <item name="wifi_store_content" type="id" />
+    <item name="wifi_store_app_icon" type="id" />
+    <item name="wifi_store_app_name" type="id" />
+    <item name="wifi_store_count_and_size" type="id" />
+    <item name="wifi_store_app_vc" type="id" />
+    <item name="wifi_store_one_key" type="id" />
+    <item name="wifi_store_more" type="id" />
+    <item name="wifi_store_close" type="id" />
+
+    <!--new-->
+    <item name="banner_store_root" type="id" />
+    <item name="banner_store_up_iv" type="id" />
+    <item name="banner_store_title" type="id" />
+    <item name="banner_store_app_one" type="id" />
+    <item name="banner_store_app_two" type="id" />
+    <item name="banner_store_app_three" type="id" />
+    <item name="banner_store_update" type="id" />
+    <item name="banner_store_close" type="id" />
+
+    <item name="update_list_store_list" type="id" />
+    <item name="update_list_store_one_key" type="id" />
+    <item name="update_list_store_back" type="id" />
+    <item name="update_list_store_root" type="id" />
+    <item name="update_list_store_close" type="id" />
+    <item name="update_list_store_guess" type="id" />
+    <item name="update_list_store_guess_install" type="id" />
+    <item name="update_list_store_grid" type="id" />
+
+    <item name="store_update_list_item_icon" type="id" />
+    <item name="store_update_list_item_name" type="id" />
+    <item name="store_update_list_item_old_version" type="id" />
+    <item name="store_update_list_item_new_version" type="id" />
+    <item name="store_update_list_item_size" type="id" />
+    <item name="store_update_list_item_update" type="id" />
+
+    <item name="recommend_store_root" type="id" />
+    <item name="recommend_store_content" type="id" />
+    <item name="recommend_store_list" type="id" />
+    <item name="recommend_store_close" type="id" />
+    <item name="recommend_store_one_key" type="id" />
+    <item name="recommend_store_install_for_app_store" type="id" />
+    <item name="recommend_store_iv_close" type="id" />
+
+    <item name="store_recommend_list_item_icon" type="id" />
+    <item name="store_recommend_list_item_name" type="id" />
+    <item name="store_recommend_list_item_edit" type="id" />
+    <item name="store_recommend_list_item_cb" type="id" />
+    <item name="store_recommend_list_item_tv" type="id" />
+
+    <item name="dialog_store_root" type="id" />
+    <item name="dialog_store_content" type="id" />
+    <item name="dialog_store_close" type="id" />
+    <item name="dialog_store_one_key" type="id" />
+    <item name="dialog_store_content_text" type="id" />
+
+    <item name="down_store_content" type="id" />
+    <item name="down_store_title" type="id" />
+    <item name="down_store_tips" type="id" />
+    <item name="down_store_close" type="id" />
+    <item name="down_store_one_key" type="id" />
+
+    <item name="bottom_store_close" type="id" />
+    <item name="bottom_store_content" type="id" />
+    <item name="bottom_store_more" type="id" />
+    <item name="bottom_store_icon" type="id" />
+    <item name="store_bottom_item_icon" type="id" />
+    <item name="store_bottom_item_name" type="id" />
+    <item name="store_bottom_item_icon_percent" type="id" />
+    <item name="store_bottom_item_down_icon" type="id" />
+    <item name="bottom_store_second_root" type="id" />
+    <item name="bottom_store_second_icon" type="id" />
+    <item name="bottom_store_second_close" type="id" />
+    <item name="bottom_store_second_grid" type="id" />
+
+    <item name="power_store_root" type="id" />
+    <item name="power_store_ring_small" type="id" />
+    <item name="power_store_ring" type="id" />
+    <item name="power_store_battery" type="id" />
+    <item name="power_store_status" type="id" />
+    <item name="power_store_doing" type="id" />
+    <item name="power_store_percent" type="id" />
+    <item name="power_store_content" type="id" />
+    <item name="power_store_tips" type="id" />
+    <item name="power_store_install" type="id" />
+    <item name="power_store_grid" type="id" />
+    <item name="power_store_anp" type="id" />
+    <item name="power_store_time" type="id" />
+    <item name="power_store_close_content" type="id" />
+    <item name="power_store_close_iv" type="id" />
+
+    <!--power for app store -->
+    <item name="power_store_express_tips" type="id" />
+    <item name="power_store_express_down" type="id" />
+    <item name="power_store_normal_down" type="id" />
+    <!--power for app store end-->
+
+    <!--power item-->
+    <item name="store_power_item_cb" type="id" />
+    <item name="store_power_item_icon" type="id" />
+    <item name="store_power_item_name" type="id" />
+    <!--power item end-->
+
+    <!--bottom for app store-->
+    <item name="bottom_power_item_cb" type="id" />
+    <item name="bottom_power_item_icon" type="id" />
+    <item name="bottom_power_item_name" type="id" />
+    <!--bottom for app store end-->
+
+    <!--二次提醒安装-->
+    <item name="second_install_store_close" type="id" />
+    <item name="second_install_store_icon" type="id" />
+    <item name="second_install_store_name" type="id" />
+    <item name="second_install_store_size" type="id" />
+    <item name="second_install_store_trash_size" type="id" />
+    <item name="second_install_store_install" type="id" />
+    <!--二次提醒安装 end-->
+
+
+    <!--上拉wifi广告-->
+    <item name="store_roll_wifi_scroll_view_sv" type="id" />
+    <item name="store_roll_wifi_head_rl" type="id" />
+    <item name="store_roll_wifi_head_location_tv" type="id" />
+    <item name="store_roll_wifi_close_iv" type="id" />
+    <item name="store_roll_wifi_detail_pic_rv" type="id" />
+    <item name="store_roll_wifi_newFeature_title_tv" type="id" />
+    <item name="store_roll_wifi_newFeature_tv" type="id" />
+    <item name="store_roll_wifi_detail_desc_tv" type="id" />
+    <item name="store_roll_wifi_more_detail_ll" type="id" />
+    <item name="store_roll_wifi_pkg_name_tv" type="id" />
+    <item name="store_roll_wifi_update_time_title_ll" type="id" />
+    <item name="store_roll_wifi_update_time_tv" type="id" />
+    <item name="store_roll_wifi_rom_title_ll" type="id" />
+    <item name="store_roll_wifi_rom_tv" type="id" />
+    <item name="store_roll_wifi_author_title_ll" type="id" />
+    <item name="store_roll_wifi_author_name_tv" type="id" />
+    <item name="store_roll_wifi_scroll_icon_iv" type="id" />
+    <!--上拉wifi广告 end-->
+
+    <!--复用信息-->
+    <item name="store_single_pic" type="id" />
+    <item name="store_appinfo_ll" type="id" />
+    <item name="store_appinfo_rl" type="id" />
+    <item name="store_appinfo_icon_iv" type="id" />
+    <item name="store_appinfo_title_tv" type="id" />
+    <item name="store_appinfo_desc_tv" type="id" />
+    <item name="store_appinfo_download_tv" type="id" />
+
+    <!--轮播图-->
+    <item name="store_repeat_play_recommend_tv" type="id" />
+    <item name="store_repeat_play_app_info_vp" type="id" />
+    <item name="store_repeat_play_dot_ll" type="id" />
+    <item name="store_repeat_play_return_desktop" type="id" />
+
+
+    <!--new recommend-->
+    <item name="store_new_recommend_top" type="id" />
+    <item name="store_new_recommend_close" type="id" />
+    <item name="store_new_recommend_recycler" type="id" />
+    <item name="store_new_recommend_refresh_ll" type="id" />
+    <item name="store_new_recommend_refresh_iv" type="id" />
+    <item name="store_new_recommend_root" type="id" />
+    <!--new recommend end-->
+
+    <!--new power-->
+    <item name="new_power_store_content" type="id" />
+    <item name="new_power_store_vp" type="id" />
+    <item name="new_power_store_v1" type="id" />
+    <item name="new_power_store_v2" type="id" />
+    <item name="new_power_store_v3" type="id" />
+    <item name="new_power_store_v4" type="id" />
+    <!--new power end-->
+
+    <!--new power item-->
+    <item name="store_new_power_item_icon" type="id" />
+    <item name="store_new_power_item_name" type="id" />
+    <item name="store_new_power_item_edit" type="id" />
+    <item name="store_new_power_item_down" type="id" />
+    <item name="store_new_power_item_pic1" type="id" />
+    <item name="store_new_power_item_pic2" type="id" />
+    <item name="store_new_power_item_pic3" type="id" />
+    <!--new power item end-->
+
+    <!--battery tips-->
+    <item name="store_battery_tips_root" type="id" />
+    <item name="store_battery_tips_battery" type="id" />
+    <item name="store_battery_tips_status" type="id" />
+    <item name="store_battery_tips_doing" type="id" />
+    <item name="store_battery_tips_percent" type="id" />
+    <item name="store_battery_tips_close" type="id" />
+    <item name="store_battery_tips_edit" type="id" />
+    <item name="store_battery_tips_search_ll" type="id" />
+    <item name="store_battery_tips_search" type="id" />
+    <item name="store_battery_tips_recycler" type="id" />
+    <item name="store_battery_tips_refresh_ll" type="id" />
+    <item name="store_battery_tips_refresh_iv" type="id" />
+    <item name="store_battery_tips_status_rl" type="id" />
+    <!--battery tips end-->
+
+    <!--search-->
+    <item name="store_search_root" type="id" />
+    <item name="store_search_close" type="id" />
+    <item name="store_search_edit" type="id" />
+    <item name="store_search_clean" type="id" />
+    <item name="store_search_fl" type="id" />
+    <item name="store_search_edit_bg" type="id" />
+    <item name="store_search_list_title" type="id" />
+    <!--search end-->
+</resources>

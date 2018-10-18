@@ -1,0 +1,192 @@
+package com.bbx.appstore.api;
+
+import android.content.Context;
+import android.util.Log;
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.*;
+import okhttp3.Callback;
+
+import com.bbx.appstore.api.tools.Device;
+import com.bbx.appstore.bean.ClickInfo;
+
+public class Report extends StoreApi {
+
+    private volatile static Report report;
+
+    private static boolean DEBUG = true;
+
+    private Report() {
+    }
+
+    public static Report getInstance() {
+        if (null == report) {
+            synchronized (Report.class) {
+                if (null == report) {
+                    report = new Report();
+                }
+            }
+        }
+        return report;
+    }
+
+    /**
+     * 上报展示时长和删除任务 或者其他人get上报
+     */
+    public void reportUrl(Context context, String rtp_method, String url, boolean replace, long time) {
+        if (null != url) {
+            if ("GET".equalsIgnoreCase(rtp_method)) {
+                if (DEBUG) Log.d("Report", "DB_STORE# GET : " + url);
+                requestForGet(context, url);
+            } else {
+                if (DEBUG) Log.d("Report", "DB_STORE# POST : " + url);
+                if (replace) {
+                    if (url.contains("SZST_ST")) {
+                        url = url.replace("SZST_ST", String.valueOf(time));
+                    }
+                }
+                requestForPost(context, url);
+            }
+        }
+    }
+
+    /**
+     * 上流上报接口
+     * replace 0/1,
+     * info 点击信息
+     */
+    public void reportListUrl(Context context, String rtp_method, List<String> urlList, int replace, ClickInfo info) {
+        if (null != urlList) {
+            if ("GET".equalsIgnoreCase(rtp_method)) {
+                for (String url : urlList) {
+                    if (DEBUG) Log.d("Report", "DB_STORE# GET url : " + url);
+                    requestForGet(context, url);
+                }
+            } else {
+                if (0 == replace) {
+                    noReplace(context, urlList);
+                    return;
+                }
+                if (1 == replace) {
+                    replace(context, urlList, info);
+                }
+            }
+        }
+    }
+
+    /**
+     * 不需要替换
+     */
+    private void noReplace(Context context, List<String> urlList) {
+        for (String url : urlList) {
+            if (url.contains("SZST_TS")) {
+                url = url.replace("SZST_TS", String.valueOf(System.currentTimeMillis()));
+            }
+            if (DEBUG) Log.d("Report", "DB_STORE# POST url : " + url);
+            requestForPost(context, url);
+        }
+    }
+
+    /**
+     * 需要替换
+     */
+    private void replace(Context context, List<String> urlList, ClickInfo info) {
+        for (String url : urlList) {
+            if (null != info) {
+                if (url.contains("SZST_DX")) {
+                    url = url.replace("SZST_DX", String.valueOf(info.x));
+                }
+                if (url.contains("SZST_DY")) {
+                    url = url.replace("SZST_DY", String.valueOf(info.y));
+                }
+                if (url.contains("SZST_UX")) {
+                    url = url.replace("SZST_UX", String.valueOf(info.x));
+                }
+                if (url.contains("SZST_UY")) {
+                    url = url.replace("SZST_UY", String.valueOf(info.y));
+                }
+            }
+            if (url.contains("SZST_TS")) {
+                url = url.replace("SZST_TS", String.valueOf(System.currentTimeMillis()));
+            }
+            if (DEBUG) Log.d("Report", "DB_STORE# POST url : " + url);
+            requestForPost(context, url);
+        }
+    }
+
+    private void requestForGet(Context context, String url) {
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("User-Agent", Device.getDefaultUserAgent(context))
+                .build();
+        Call call = httpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (DEBUG) Log.d("Report", "DB_STORE# onFailure : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                int code = response.code();
+                if (code == 200) {
+                    if (DEBUG)
+                        Log.d("Report", "DB_STORE# onSuccess onResponse : " + response.body());
+                } else {
+                    if (DEBUG)
+                        Log.d("Report", "DB_STORE# onError onResponse : " + response.body());
+                }
+                response.body().close();
+            }
+        });
+    }
+
+    private void requestForPost(Context context, String url) {
+        String content = url.substring(url.indexOf("?") + 1);
+        url = url.substring(0, url.indexOf("?"));
+        String[] params = content.split("&");//方法要改善，不能用这个
+        FormBody.Builder builder = new FormBody.Builder();
+        for (String param : params) {
+            if (DEBUG) Log.d("Report", "params : " + param);
+            int index = param.indexOf("=");//不用split，怕里面有多个=
+            if (index == -1) {
+                continue;
+            }
+            try {
+                String p = param.substring(index + 1);
+                builder.add(param.substring(0, index), p);
+            } catch (StringIndexOutOfBoundsException e) {
+                builder.add(param.substring(0, index), "");
+            }
+        }
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("User-Agent", Device.getDefaultUserAgent(context))
+                .post(builder.build())
+                .build();
+        Call call = httpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (DEBUG) Log.d("Report", "DB_STORE# onFailure : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (null == response.body()) {
+                    return;
+                }
+                int code = response.code();
+                if (code == 200) {
+                    if (DEBUG)
+                        Log.d("Report", "DB_STORE# onSuccess onResponse : " + response.body());
+                } else {
+                    if (DEBUG) Log.d("Report", "DB_STORE# onError onResponse : " + response.body());
+                }
+                response.body().close();
+            }
+        });
+    }
+}

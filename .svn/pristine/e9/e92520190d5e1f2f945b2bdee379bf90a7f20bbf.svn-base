@@ -1,0 +1,456 @@
+package com.bbx.appstore.view;
+
+import android.content.Context;
+import android.content.res.XmlResourceParser;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.bbx.appstore.api.Report;
+import com.bbx.appstore.api.RequestApi;
+import com.bbx.appstore.base.SConstant;
+import com.bbx.appstore.bean.AppDetailInfo;
+import com.bbx.appstore.bean.AppListInfo;
+import com.bbx.appstore.bean.DmBean;
+import com.bbx.appstore.bean.StoreADInfo;
+import com.bbx.appstore.download.DManager;
+import com.bbx.appstore.download.DownloadLoopAndInstall;
+import com.bbx.appstore.download.DownloadReceiver;
+import com.bbx.appstore.rec.FindRes;
+import com.bbx.appstore.storeutils.ApkUtils;
+import com.bbx.appstore.storeutils.Utils;
+import com.bbx.support.MyLinearLayoutManager;
+import com.bbx.support.MyRecyclerView;
+import com.bbx.support.MyRecyclerViewAdapter;
+import com.bbx.support.MyViewHolder;
+import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+import static com.bbx.appstore.storeutils.ApkUtils.DOWNLOAD;
+import static com.bbx.appstore.storeutils.ApkUtils.DOWNLOADING;
+import static com.bbx.appstore.storeutils.ApkUtils.INSTALL;
+import static com.bbx.appstore.storeutils.ApkUtils.OPEN;
+import static com.bbx.appstore.storeutils.ApkUtils.UPDATE;
+
+public class StoreNewRecommendView extends IView implements DownloadLoopAndInstall.OnDownloadAndInstallListener {
+
+    private static final String TAG = "StoreNewRecommendView";
+    private MyRecyclerView mRecyclerView;
+    private Adapter mAdapter;
+    private LinearLayout mRoot;
+    private StoreADInfo mADInfo;
+    private AppListInfo mListInfo;
+    private int requestCount;
+    private FrameLayout mRecyclerRoot;
+    private Set<AppDetailInfo> mCacheList;
+    private boolean refresh;
+    private Random random = new Random();
+
+    public StoreNewRecommendView(StoreADInfo info) {
+        mADInfo = info;
+    }
+
+    @Override
+    public String getWindowId() {
+        return TAG;
+    }
+
+    @Override
+    public void onCreate(Context context, Object extra) {
+        super.onCreate(context, extra);
+    }
+
+    @Override
+    protected XmlResourceParser onSetLayout() {
+        return FindRes.getLayout("store_view_new_recommend");
+    }
+
+    @Override
+    protected void setLayoutParams(ViewParams viewParams) {
+
+    }
+
+    @Override
+    public void onViewCreated(View view) {
+        initView(view);
+        initData();
+    }
+
+    private void initData() {
+        getAppList();
+    }
+
+    private void getAppList() {
+        RequestApi.getInstance().guessULike(mContext, SConstant.CID_NEW_RECOMMEND, 4, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                HANDLER.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh = false;
+                        finishCallBack(StoreNewRecommendView.this);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (null == response.body()) {
+                    HANDLER.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            finishCallBack(StoreNewRecommendView.this);
+                        }
+                    });
+                    refresh = false;
+                    return;
+                }
+                if (handleData(response.body().string())) {
+                    requestCount++;
+                    if (null == mCacheList) mCacheList = new HashSet<>();
+//                    if (null != mListInfo.must) {
+//                        for (AppDetailInfo i : mListInfo.must) {
+//                            if (mCacheList.size() < 3) {
+//                                mCacheList.add(i);
+//                            }
+//                        }
+//                    }
+                    while (mCacheList.size() < 4 && mListInfo.list.size() > 0) {
+                        AppDetailInfo info = mListInfo.list.get(random.nextInt(mListInfo.list.size()));
+                        if (mCacheList.contains(info)) {
+                            mListInfo.list.remove(info); // 自减,直到while不成立
+                        } else {
+                            mCacheList.add(info);
+                        }
+                    }
+                    if (mCacheList.size() < 4 && requestCount < 3) { //再次请求下一页, 次数限制3次
+                        response.body().close();
+                        Log.e(TAG, "getAppList requestCount++ ");
+                        getAppList();
+                        return;
+                    }
+                    Log.e(TAG, "requestCount = " + requestCount);
+                    if (mCacheList.size() <= 0) {
+                        HANDLER.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                finishCallBack(StoreNewRecommendView.this);
+                            }
+                        });
+                        response.body().close();
+                        return;
+                    }
+                    mListInfo.list.clear();
+                    mListInfo.list.addAll(mCacheList);
+                    HANDLER.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            DownloadLoopAndInstall.getInstance().setDNIListener(StoreNewRecommendView.this);
+                            mRecyclerView.setLayoutManager(new MyLinearLayoutManager(mContext));
+                            mRecyclerView.setItemAnimator(null);
+                            mRecyclerView.setAdapter(mAdapter = new Adapter(mContext, mListInfo));
+                            mRoot.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    HANDLER.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finishCallBack(StoreNewRecommendView.this);
+                        }
+                    }, mADInfo.s_dur);
+                } else {
+                    HANDLER.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            finishCallBack(StoreNewRecommendView.this);
+                        }
+                    });
+                }
+                refresh = false;
+                response.body().close();
+            }
+        });
+    }
+
+    private boolean handleData(String data) {
+        AppListInfo listInfo = new Gson().fromJson(data, AppListInfo.class);
+        if (null == listInfo || null != listInfo.err || listInfo.list.size() <= 0) {
+            Log.e(TAG, "handleData error " + listInfo);
+            return mListInfo != null;
+        }
+
+        List<AppDetailInfo> list = new ArrayList<>();
+        for (AppDetailInfo info : listInfo.list) {
+            if (DOWNLOAD == ApkUtils.checkNeedDownload(mContext, info.apk, Integer.valueOf(info.versioncode))) {
+                list.add(info);
+            } else {
+                Log.e(TAG, "handleData clean pkg " + info.appname);
+            }
+        }
+        if (mListInfo == null) { //第一次请求
+            listInfo.list = list;
+            mListInfo = listInfo;
+        } else { //第二次或之后的请求
+            mListInfo.list = list;
+        }
+        return true;
+    }
+
+    private void initView(View view) {
+        ImageView topView = (ImageView) view.findViewById(FindRes.getId("store_new_recommend_top"));
+        topView.setImageDrawable(FindRes.getDrawable("store_recommend_top"));
+        ImageView close = (ImageView) view.findViewById(FindRes.getId("store_new_recommend_close"));
+        close.setImageDrawable(FindRes.getDrawable("store_bottom_close"));
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListInfo && mListInfo.list.size() > 0) {
+                    AppDetailInfo appDetailInfo = mListInfo.list.get(0);
+                    if (null != appDetailInfo ) {
+                        Report.getInstance().reportUrl(mContext, mListInfo.rtp_method, appDetailInfo.rpt_dl, false, 0);
+                    }
+                }
+                finish(StoreNewRecommendView.this);
+            }
+        });
+        mRecyclerRoot = (FrameLayout) view.findViewById(FindRes.getId("store_new_recommend_recycler"));
+        mRoot = (LinearLayout) view.findViewById(FindRes.getId("store_new_recommend_root"));
+        LinearLayout refreshLL = (LinearLayout) view.findViewById(FindRes.getId("store_new_recommend_refresh_ll"));
+        refreshLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (refresh) return;
+                refresh = true;
+                mListInfo.list.clear();
+                mListInfo = null;
+                mCacheList = null;
+                requestCount = 0;
+                getAppList();
+            }
+        });
+        ImageView refreshIV = (ImageView) view.findViewById(FindRes.getId("store_new_recommend_refresh_iv"));
+        refreshIV.setImageDrawable(FindRes.getDrawable("store_recommend_refresh"));
+        mRecyclerView = new MyRecyclerView(mContext);
+        mRecyclerRoot.addView(mRecyclerView);
+    }
+
+    @Override
+    public void downloadComplete(String pkgName) {
+        if (null != mAdapter) {
+            mAdapter.upDataButton(pkgName);
+        }
+    }
+
+    @Override
+    public void downloadFailed(String pkgName) {
+        if (null != mAdapter) {
+            mAdapter.upDataButton(pkgName);
+        }
+    }
+
+    @Override
+    public void installSuccessful(String pkgName) {
+        if (null != mAdapter) {
+            mAdapter.upDataButton(pkgName);
+        }
+    }
+
+    @Override
+    public void downloadProgress(String pkgName, int progress) {
+        if (null != mAdapter) {
+            mAdapter.upData(pkgName, progress);
+        }
+    }
+
+    private static class Adapter extends MyRecyclerViewAdapter {
+
+        private Context mContext;
+        private LayoutInflater inflater;
+        private AppListInfo mListInfo;
+        private DisplayImageOptions options;
+        private List<String> pkgNameList;
+        private List<Integer> progressList;
+        private Set<AppDetailInfo> showReport;
+
+        private Adapter(Context context, AppListInfo listInfo) {
+            mContext = context;
+            inflater = LayoutInflater.from(mContext);
+            mListInfo = listInfo;
+            showReport = new HashSet<>();
+            pkgNameList = new ArrayList<>();
+            progressList = new ArrayList<>();
+            for (AppDetailInfo appDetailInfo : mListInfo.list) {
+                pkgNameList.add(appDetailInfo.apk);
+                progressList.add(-1);
+            }
+            options = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(FindRes.getDrawable("store_icon_loading"))
+                    .showImageOnFail(FindRes.getDrawable("store_icon_loading"))
+                    .cacheInMemory(true)
+                    .cacheOnDisk(false)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .build();
+        }
+
+        private void upData(String pkgName, int progress) {
+            int i = pkgNameList.indexOf(pkgName);
+            if (i >= 0) {
+                progressList.set(i, progress);
+                notifyItemChanged(i);
+            }
+        }
+
+        private void upDataButton(String pkgName) {
+            if (pkgNameList.contains(pkgName)) {
+                notifyItemChanged(pkgNameList.indexOf(pkgName));
+            }
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ViewHolder(inflater.inflate(FindRes.getLayout("store_item_view_recommend"), parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
+            AppDetailInfo appDetailInfo = mListInfo.list.get(position);
+            final ViewHolder holder = (ViewHolder) myViewHolder;
+            holder.name.setText(appDetailInfo.appname);
+
+            ImageLoader.getInstance().displayImage(appDetailInfo.icon, holder.icon, options);
+
+            if (!TextUtils.isEmpty(appDetailInfo.description)) {
+                holder.edit.setText(appDetailInfo.description);
+            } else {
+                try {
+                    double downCount = Double.valueOf(appDetailInfo.downcount);
+                    holder.edit.setText(Utils.downloadNum(downCount));
+                } catch (NumberFormatException e) {
+                    holder.edit.setText(appDetailInfo.downcount);
+                }
+            }
+
+            if (!showReport.contains(appDetailInfo)) {
+                showReport.add(appDetailInfo);
+                Report.getInstance().reportListUrl(mContext, mListInfo.rtp_method, appDetailInfo.rpt_ss, mListInfo.flag_replace, null);
+            }
+
+            holder.down.setTag(appDetailInfo);
+            int status = ApkUtils.getStatus(mContext, appDetailInfo.appid, appDetailInfo.apk, Integer.valueOf(appDetailInfo.versioncode));
+            switch (status) {
+                case DOWNLOAD:
+                case UPDATE:
+                default:
+                    holder.down.setClickable(true);
+                    holder.down.setText("下载");
+                    holder.down.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AppDetailInfo tag = (AppDetailInfo) v.getTag();
+                            holder.down.setText("准备中");
+                            holder.down.setClickable(false);
+                            DmBean dmBean = buildDmBean(tag);
+                            DownloadLoopAndInstall.getInstance().addDownloadLoop(mContext, dmBean);
+                            if (DOWNLOAD == ApkUtils.checkNeedDownload(mContext, dmBean.packageName, Integer.valueOf(dmBean.versionCode))) {
+                                Report.getInstance().reportListUrl(mContext, mListInfo.rtp_method, tag.rpt_cd, mListInfo.flag_replace, null);
+                            }
+                        }
+                    });
+                    break;
+                case DOWNLOADING:
+                    holder.down.setClickable(false);
+                    Integer integer = progressList.get(position);
+                    holder.down.setText(integer + "%");
+                    break;
+                case OPEN:
+                    holder.down.setClickable(true);
+                    holder.down.setText("打开");
+                    holder.down.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AppDetailInfo tag = (AppDetailInfo) v.getTag();
+                            ApkUtils.startApp(mContext, tag.apk);
+                        }
+                    });
+                    break;
+                case INSTALL:
+                    holder.down.setClickable(true);
+                    holder.down.setText("安装");
+                    holder.down.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AppDetailInfo tag = (AppDetailInfo) v.getTag();
+                            ApkUtils.blueInstall(mContext, DManager.getInstance(mContext).getApkFile(tag.appname), DownloadReceiver.IA);
+                            if (ApkUtils.hasPermission(mContext) && DownloadReceiver.IA == 3) {
+                                holder.down.setText("安装中");
+                                holder.down.setClickable(false);
+                            }
+                        }
+                    });
+                    break;
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mListInfo.list.size() > 4 ? 4 : mListInfo.list.size();
+        }
+
+        private DmBean buildDmBean(AppDetailInfo info) {
+            DmBean dmBean = new DmBean();
+            dmBean.appId = info.appid;
+            dmBean.appName = info.appname;
+            dmBean.downUrl = info.href_download;
+            dmBean.packageName = info.apk;
+            dmBean.versionCode = info.versioncode;
+            dmBean.size = info.size;
+            dmBean.iconUrl = info.icon;
+            dmBean.repDc = info.rpt_dc;
+            dmBean.repInstall = info.rpt_ic;
+            dmBean.repAc = info.rpt_ac;
+            dmBean.method = mListInfo.rtp_method;
+            return dmBean;
+        }
+    }
+
+    private static class ViewHolder extends MyViewHolder {
+
+        private ImageView icon;
+        private TextView name, edit, down;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            icon = (ImageView) itemView.findViewById(FindRes.getId("store_recommend_list_item_icon"));
+            name = (TextView) itemView.findViewById(FindRes.getId("store_recommend_list_item_name"));
+            edit = (TextView) itemView.findViewById(FindRes.getId("store_recommend_list_item_edit"));
+            down = (TextView) itemView.findViewById(FindRes.getId("store_recommend_list_item_tv"));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                down.setBackground(FindRes.getDrawable("store_bg_app_down_blue"));
+            } else {
+                down.setBackgroundDrawable(FindRes.getDrawable("store_bg_app_down_blue"));
+            }
+            down.setVisibility(View.VISIBLE);
+        }
+    }
+}

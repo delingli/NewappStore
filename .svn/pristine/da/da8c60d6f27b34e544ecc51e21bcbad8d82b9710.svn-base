@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--head-->
+    <RelativeLayout
+        android:id="@id/store_roll_wifi_head_rl"
+        android:layout_width="match_parent"
+        android:layout_height="93.5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="26dp"
+            android:text="恭喜！您已连上免费WIFI"
+            android:textColor="#333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@id/store_roll_wifi_head_location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="附近的好友正在玩以下应用"
+            android:textColor="#333"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@id/store_roll_wifi_close_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp" />
+    </RelativeLayout>
+
+    <!--app detail-->
+    <ScrollView
+        android:id="@id/store_roll_wifi_scroll_view_sv"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_below="@id/store_appinfo_rl">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@id/store_roll_wifi_detail_pic_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp" />
+
+                <TextView
+                    android:id="@id/store_roll_wifi_newFeature_title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="16dp"
+                    android:text="新特性"
+                    android:textColor="#cc000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@id/store_roll_wifi_newFeature_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="16dp"
+                    android:textColor="#cc000000"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@id/store_roll_wifi_detail_desc_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="12dp"
+                    android:textColor="#cc000000"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@id/store_roll_wifi_more_detail_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:text="详细信息"
+                        android:textColor="#cc000000"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="right"
+                            android:text="应用包名"
+                            android:textColor="#666666"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@id/store_roll_wifi_pkg_name_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="8"
+                            android:textColor="#cc000000"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@id/store_roll_wifi_update_time_title_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="right"
+                            android:text="更新时间"
+                            android:textColor="#666666"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@id/store_roll_wifi_update_time_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="8"
+                            android:textColor="#cc000000"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@id/store_roll_wifi_rom_title_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="right"
+                            android:text="更新时间"
+                            android:textColor="#666666"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@id/store_roll_wifi_rom_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="8"
+                            android:textColor="#cc000000"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@id/store_roll_wifi_author_title_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="32dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="right"
+                            android:text="开发者"
+                            android:textColor="#666666"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@id/store_roll_wifi_author_name_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="8"
+                            android:textColor="#cc000000"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@id/store_roll_wifi_scroll_icon_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="295dp" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <!--app Info-->
+    <RelativeLayout
+        android:id="@id/store_appinfo_rl"
+        android:layout_width="match_parent"
+        android:layout_height="59.5dp"
+        android:layout_below="@id/store_roll_wifi_head_rl"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:id="@id/store_appinfo_icon_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/store_appinfo_icon_iv"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@id/store_appinfo_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="#333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@id/store_appinfo_desc_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:maxWidth="130dp"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@id/store_appinfo_download_tv"
+            android:layout_width="56dp"
+            android:layout_height="26dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="41dp"
+            android:gravity="center"
+            android:text="安装"
+            android:textColor="#1070CC"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,377 @@
+package com.bbx.appstore.view;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.XmlResourceParser;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.bbx.appstore.api.Report;
+import com.bbx.appstore.bean.AppDetailInfo;
+import com.bbx.appstore.bean.AppListInfo;
+import com.bbx.appstore.bean.ClickInfo;
+import com.bbx.appstore.bean.DmBean;
+import com.bbx.appstore.bean.StoreADInfo;
+import com.bbx.appstore.download.DManager;
+import com.bbx.appstore.download.DownloadLoopAndInstall;
+import com.bbx.appstore.download.DownloadReceiver;
+import com.bbx.appstore.rec.FindRes;
+import com.bbx.appstore.storeutils.ApkUtils;
+import com.bbx.appstore.storeutils.Utils;
+import com.bbx.support.MyLinearLayoutManager;
+import com.bbx.support.MyRecyclerView;
+import com.bbx.support.MyRecyclerViewAdapter;
+import com.bbx.support.MyViewHolder;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.List;
+
+import static android.text.TextUtils.isEmpty;
+import static com.bbx.appstore.storeutils.ApkUtils.DOWNLOAD;
+import static com.bbx.appstore.storeutils.ApkUtils.DOWNLOADING;
+import static com.bbx.appstore.storeutils.ApkUtils.INSTALL;
+import static com.bbx.appstore.storeutils.ApkUtils.OPEN;
+import static com.bbx.appstore.storeutils.ApkUtils.UPDATE;
+import static com.bbx.appstore.storeutils.ApkUtils.hasPermission;
+
+/**
+ * Created by jiangyong on 18-4-14.
+ */
+
+public class StoreRollWifiView extends IView implements DownloadLoopAndInstall.OnDownloadAndInstallListener {
+
+    private DisplayImageOptions ICON_OPTIONS = new DisplayImageOptions.Builder()
+            .showImageOnLoading(FindRes.getDrawable("store_icon_loading"))
+            .showImageOnFail(FindRes.getDrawable("store_icon_loading"))
+            .cacheInMemory(false)
+            .cacheOnDisk(true)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .build();
+    private static final String TAG = "StoreRollWifiView";
+
+    private TextView mTvLocationTips, mTvAppTitle, mTvAppDesc, mTvAppDownload;
+    private TextView mTvPkg, mTvRom, mTvUpdate, mTvDeveloper;
+    private TextView mTvNewFeature, mTvDetailDesc;
+    private MyRecyclerView mVpPic;
+    private FrameLayout mVpRoot;
+    private ImageView mIvClose, mIvAppIcon, mIvScrollIcon;
+    private LinearLayout mLlUpdate, mLlRom, mLlDeveloper;
+    private RelativeLayout mRlHead;
+    private PicAdapter picAdapter;
+    private AppDetailInfo mInfo;
+    private ScrollView mScrollView;
+
+    private StoreADInfo adInfo;
+    private int y;
+    private int x;
+
+    @Override
+    public String getWindowId() {
+        return TAG;
+    }
+
+    public StoreRollWifiView(StoreADInfo info) {
+        adInfo = info;
+    }
+
+    @Override
+    public void onCreate(Context context, Object extra) {
+        super.onCreate(context, extra);
+        AppListInfo infos = (AppListInfo) extra;
+        mInfo = infos.list.get(0);
+    }
+
+    @Override
+    protected XmlResourceParser onSetLayout() {
+        return FindRes.getLayout("store_view_roll_wifi");
+    }
+
+    @Override
+    protected void setLayoutParams(ViewParams viewParams) {
+        viewParams.gravity = Gravity.BOTTOM;
+    }
+
+    @Override
+    public void onViewCreated(View view) {
+        findId(view);
+        initResUi();
+        initNetUi();
+        DownloadLoopAndInstall.getInstance().setDNIListener(this);
+    }
+
+    private void initNetUi() {
+        picAdapter.setData(mInfo.screenshots);
+        mVpPic.setAdapter(picAdapter);
+
+        mTvAppDesc.setText(Utils.versionName(mInfo.versionname));
+        mTvAppTitle.setText(mInfo.appname);
+
+        //详细信息
+        mTvPkg.setText(mInfo.apk);
+        if (!isEmpty(mInfo.updatetime))
+            mTvUpdate.setText(mInfo.updatetime);
+        else
+            mLlUpdate.setVisibility(View.GONE);
+        if (!isEmpty(mInfo.os))
+            mTvRom.setText(Utils.getAndroidRom(Integer.valueOf(mInfo.os)));
+        else
+            mLlRom.setVisibility(View.GONE);
+        if (!isEmpty(mInfo.developer)) {
+            mTvDeveloper.setText(mInfo.developer);
+        } else {
+            mLlDeveloper.setVisibility(View.GONE);
+        }
+
+        mTvNewFeature.setText(mInfo.updateinfo);
+        mTvDetailDesc.setText(mInfo.description);
+
+        ImageLoader.getInstance().displayImage(mInfo.icon, mIvAppIcon, ICON_OPTIONS);
+        Report.getInstance().reportListUrl(mContext, mInfo.rtp_method, mInfo.rpt_ss, mInfo.flag_replace, new ClickInfo(x,y));
+    }
+
+    private void findId(View view) {
+
+        mTvLocationTips = (TextView) view.findViewById(FindRes.getId("store_roll_wifi_head_location_tv"));
+        mTvAppTitle = (TextView) view.findViewById(FindRes.getId("store_appinfo_title_tv"));
+        mTvAppDesc = (TextView) view.findViewById(FindRes.getId("store_appinfo_desc_tv"));
+        mTvAppDownload = (TextView) view.findViewById(FindRes.getId("store_appinfo_download_tv"));
+
+        mTvPkg = (TextView) view.findViewById(FindRes.getId("store_roll_wifi_pkg_name_tv"));
+        mTvRom = (TextView) view.findViewById(FindRes.getId("store_roll_wifi_rom_tv"));
+        mTvUpdate = (TextView) view.findViewById(FindRes.getId("store_roll_wifi_update_time_tv"));
+        mTvDeveloper = (TextView) view.findViewById(FindRes.getId("store_roll_wifi_author_name_tv"));
+
+        mTvNewFeature = (TextView) view.findViewById(FindRes.getId("store_roll_wifi_newFeature_tv"));
+        mTvDetailDesc = (TextView) view.findViewById(FindRes.getId("store_roll_wifi_detail_desc_tv"));
+
+        mVpRoot = (FrameLayout) view.findViewById(FindRes.getId("store_roll_wifi_detail_pic_rv"));
+
+        mIvClose = (ImageView) view.findViewById(FindRes.getId("store_roll_wifi_close_iv"));
+        mIvAppIcon = (ImageView) view.findViewById(FindRes.getId("store_appinfo_icon_iv"));
+        mIvScrollIcon = (ImageView) view.findViewById(FindRes.getId("store_roll_wifi_scroll_icon_iv"));
+
+        mLlUpdate = (LinearLayout) view.findViewById(FindRes.getId("store_roll_wifi_update_time_title_ll"));
+        mLlRom = (LinearLayout) view.findViewById(FindRes.getId("store_roll_wifi_rom_title_ll"));
+        mLlDeveloper = (LinearLayout) view.findViewById(FindRes.getId("store_roll_wifi_author_title_ll"));
+
+        mRlHead = (RelativeLayout) view.findViewById(FindRes.getId("store_roll_wifi_head_rl"));
+
+        mScrollView = (ScrollView) view.findViewById(FindRes.getId("store_roll_wifi_scroll_view_sv"));
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void initResUi() {
+        Drawable icon = FindRes.getDrawable("store_roll_wifi_location_icon");
+        icon.setBounds(0, 0, icon.getMinimumWidth(), icon.getMinimumHeight());
+        mTvLocationTips.setCompoundDrawables(icon, null, null, null);
+        mTvLocationTips.setCompoundDrawablePadding((int) Utils.dipToPixels(13, mContext));
+
+        mIvClose.setImageDrawable(FindRes.getDrawable("store_roll_wifi_close"));
+        mIvScrollIcon.setImageDrawable(FindRes.getDrawable("store_roll_wifi_scroll_icon"));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mRlHead.setBackground(FindRes.getDrawable("store_roll_wifi_top_bg"));
+            mTvAppDownload.setBackground(FindRes.getDrawable("store_bg_roll_wifi_download"));
+        } else {
+            mRlHead.setBackgroundDrawable(FindRes.getDrawable("store_roll_wifi_top_bg'"));
+            mTvAppDownload.setBackgroundDrawable(FindRes.getDrawable("store_bg_roll_wifi_download"));
+        }
+
+        setDownloadButton(-1);
+
+        mIvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mInfo) {
+                    Report.getInstance().reportUrl(mContext, mInfo.rtp_method, mInfo.rpt_dl, false, 0);
+                }
+                finishCallBack(StoreRollWifiView.this);
+            }
+        });
+
+        MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(mContext, MyLinearLayoutManager.HORIZONTAL, false);
+        mVpPic = new MyRecyclerView(mContext);
+        mVpRoot.addView(mVpPic, new ViewGroup.LayoutParams(-1, -1));
+        mVpPic.setLayoutManager(layoutManager);
+        picAdapter = new PicAdapter(mContext);
+
+        mScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (mScrollView.getScrollY() < 10) {
+                    mIvScrollIcon.setVisibility(View.VISIBLE);
+                } else if (mScrollView.getScrollY() > 10 && mIvScrollIcon.getVisibility() == View.VISIBLE) {
+                    mIvScrollIcon.setVisibility(View.GONE);
+                }
+                return false;
+            }
+        });
+    }
+
+    private void setDownloadButton(int percent) {
+        if (percent >= 0) {
+            mTvAppDownload.setClickable(false);
+            mTvAppDownload.setText(percent + "%");
+            return;
+        }
+        mTvAppDownload.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                x = (int) motionEvent.getX();
+                y = (int) motionEvent.getY();
+                return false;
+            }
+        });
+        int status = ApkUtils.getStatus(mContext, mInfo.appid, mInfo.apk, Integer.valueOf(mInfo.versioncode));
+        switch (status) {
+            case DOWNLOAD:
+            case UPDATE:
+            default:
+                mTvAppDownload.setText("下载");
+                mTvAppDownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mTvAppDownload.setText("准备中");
+                        mTvAppDownload.setClickable(false);
+                        DmBean dmBean = buildDmBean(mInfo);
+                        DownloadLoopAndInstall.getInstance().addDownloadLoop(mContext, dmBean);
+                        if (DOWNLOAD == ApkUtils.checkNeedDownload(mContext, dmBean.packageName, Integer.valueOf(dmBean.versionCode))) {
+                            Report.getInstance().reportListUrl(mContext, mInfo.rtp_method, mInfo.rpt_cd, mInfo.flag_replace, new ClickInfo(x,y));
+                        }
+                    }
+                });
+                break;
+            case INSTALL:
+                mTvAppDownload.setClickable(true);
+                mTvAppDownload.setText("安装");
+                mTvAppDownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ApkUtils.blueInstall(mContext, DManager.getInstance(mContext).getApkFile(mInfo.appname), DownloadReceiver.IA);
+                        if (hasPermission(mContext) && DownloadReceiver.IA == 3) {
+                            mTvAppDownload.setText("安装中");
+                            mTvAppDownload.setClickable(false);
+                        }
+                    }
+                });
+                break;
+            case OPEN:
+                mTvAppDownload.setClickable(true);
+                mTvAppDownload.setText("打开");
+                mTvAppDownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ApkUtils.startApp(mContext, mInfo.apk);
+                    }
+                });
+                break;
+            case DOWNLOADING:
+                mTvAppDownload.setClickable(false);
+                break;
+        }
+    }
+
+    private DmBean buildDmBean(AppDetailInfo info) {
+        DmBean dmBean = new DmBean();
+        dmBean.appId = info.appid;
+        dmBean.appName = info.appname;
+        dmBean.downUrl = info.href_download;
+        dmBean.packageName = info.apk;
+        dmBean.versionCode = info.versioncode;
+        dmBean.size = info.size;
+        dmBean.iconUrl = info.icon;
+        dmBean.repDc = info.rpt_dc;
+        dmBean.repInstall = info.rpt_ic;
+        dmBean.repAc = info.rpt_ac;
+        dmBean.method = info.rtp_method;
+        return dmBean;
+    }
+
+    @Override
+    public void downloadComplete(String pkgName) {
+        if (mTvAppDownload != null && mInfo != null && mInfo.apk.equals(pkgName)) {
+            setDownloadButton(-1);
+        }
+    }
+
+    @Override
+    public void downloadFailed(String pkgName) {
+        if (mTvAppDownload != null && mInfo != null && mInfo.apk.equals(pkgName)) {
+            setDownloadButton(-1);
+        }
+    }
+
+    @Override
+    public void installSuccessful(String pkgName) {
+        if (mTvAppDownload != null && mInfo != null && mInfo.apk.equals(pkgName)) {
+            setDownloadButton(-1);
+        }
+    }
+
+    @Override
+    public void downloadProgress(String pkgName, int progress) {
+        if (mTvAppDownload != null && mInfo != null && mInfo.apk.equals(pkgName)) {
+            setDownloadButton(progress);
+        }
+    }
+
+    private static class PicAdapter extends MyRecyclerViewAdapter {
+
+        private List<String> mData;
+        public LayoutInflater mInflater;
+        private DisplayImageOptions PIC_OPTIONS = new DisplayImageOptions.Builder()
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+
+        public PicAdapter(Context context) {
+            mInflater = LayoutInflater.from(context);
+        }
+
+        public void setData(List<String> data) {
+            mData = data;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            return new ViewHolder(mInflater.inflate(FindRes.getLayout("store_item_single_app_pic"), viewGroup, false));
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
+            ViewHolder holder = (ViewHolder) myViewHolder;
+            ImageLoader.getInstance().displayImage(mData.get(i), holder.mIvPic, PIC_OPTIONS);
+        }
+
+        @Override
+        public int getItemCount() {
+            return null == mData ? 0 : mData.size();
+        }
+    }
+
+    private static class ViewHolder extends MyViewHolder {
+
+
+        private ImageView mIvPic;
+
+        public ViewHolder(View view) {
+            super(view);
+            mIvPic = (ImageView) view.findViewById(FindRes.getId("store_single_pic"));
+        }
+    }
+}

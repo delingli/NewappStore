@@ -1,0 +1,112 @@
+package com.bbx.appstore.manager;
+
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.SystemProperties;
+import android.provider.Settings;
+import android.util.Log;
+import android.util.Pair;
+import android.view.View;
+import android.view.WindowManager;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.Manifest.permission.SYSTEM_ALERT_WINDOW;
+
+/**
+ * Created by jarrahwu on 5/26/16.
+ */
+public class FloatWindowManager {
+
+    private static final String TAG = "FloatWindowManager";
+    private static final FloatWindowManager INSTANCE = new FloatWindowManager();
+    private static final Object LOCK = new Object();
+
+    private static final boolean DEBUG = false;
+
+    private Context mContext;
+    private WindowManager mWindowManager;
+
+    private final Map<String, Pair<IFloatWindow, View>> mViewMap = new HashMap<String, Pair<IFloatWindow, View>>();
+
+    public static FloatWindowManager getInstance() {
+        synchronized (LOCK) {
+            return INSTANCE;
+        }
+    }
+
+    private FloatWindowManager() {
+    }
+
+    public void init(Context context) {
+        mContext = context;
+        mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+    }
+
+    public static int getWindowType(Context context) {
+        int type;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            type = WindowManager.LayoutParams.TYPE_TOAST;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Settings.canDrawOverlays(context) || context.checkSelfPermission(SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_GRANTED) {
+                    type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+                }
+            }
+        } else {
+            type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+        }
+        if (SystemProperties.get("ro.miui.ui.version.name", "").equalsIgnoreCase("V6")) {
+            return WindowManager.LayoutParams.TYPE_TOAST;
+        }
+        return type;
+    }
+
+    public void show(IFloatWindow window, Object extra) {
+        if (DEBUG)
+            Log.e(TAG, "on show");
+        if (!mViewMap.containsKey(window.getWindowId())) {
+            if (DEBUG)
+                Log.e(TAG, "show window : " + window.getWindowId());
+
+            window.onCreate(mContext, extra);
+            WindowManager.LayoutParams layoutParams = window.getLayoutParams(mContext);
+            View view = window.onCreateView(mContext);
+            mWindowManager.addView(view, layoutParams); // TODO: 17-10-27
+            window.onViewCreated(view);
+            mViewMap.put(window.getWindowId(), new Pair<IFloatWindow, View>(window, view));
+        }
+    }
+
+    public void dismiss(IFloatWindow floatWindow) {
+        if (mViewMap.containsKey(floatWindow.getWindowId())) {
+            mViewMap.get(floatWindow.getWindowId()).first.onStop(mContext);
+            mWindowManager.removeViewImmediate(mViewMap.get(floatWindow.getWindowId()).second); // TODO: 17-10-27
+            mViewMap.get(floatWindow.getWindowId()).first.onDestroy(mContext);
+            mViewMap.remove(floatWindow.getWindowId());
+        }
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
+
+
+    public interface IFloatWindow {
+
+        String getWindowId();
+
+        void onCreate(Context context, Object extra);
+
+        View onCreateView(Context context);
+
+        void onViewCreated(View view);
+
+        void onStop(Context context);
+
+        void onDestroy(Context context);
+
+        WindowManager.LayoutParams getLayoutParams(Context context);
+    }
+}
