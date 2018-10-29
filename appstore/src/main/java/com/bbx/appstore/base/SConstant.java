@@ -63,7 +63,7 @@ public interface SConstant {
     String TYPE_WIFI = "wifi";
     String TYPE_SEARCH = "search";
 
-    String APP_LIST = "applist"; //洗包列表 eg:type=?type=recommendad&applist=com.wuba,com.rasoft.bubble
+    String APP_LIST = "applist"; //洗包列表 eg:type=?type=recommendad&applist=com.wuba,com.rasoft.bubble  上报本地列表应用
     String APK_LIST = "apklist"; //更新
 
     String CID = "&cid=";
@@ -74,6 +74,7 @@ public interface SConstant {
     int CID_POWER_IN = -8;
     int CID_POWER_OUT = -9;
     int CID_GUESS = -10;
+    String APP_MARKET = "&market=";
 
     int CID_INSERT = -20;
     int CID_NEW_POWER_IN = -18;

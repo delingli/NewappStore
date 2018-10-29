@@ -6,6 +6,7 @@ import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -283,10 +284,17 @@ public class StoreListView extends IView {
 
             TextView count = (TextView) convertView.findViewById(FindRes.getId("store_list_item_count"));
             try {
-                double downCount = Double.valueOf(info.downcount);
-                count.setText(Utils.downloadNum(downCount));
-            } catch (NumberFormatException e) {
-                count.setText(info.downcount);
+                if(!TextUtils.isEmpty(info.downcount)){
+                    double downCount = Double.valueOf(info.downcount);
+                    count.setText(Utils.downloadNum(downCount));
+                }
+
+
+            } catch (Exception e) {
+                if(!TextUtils.isEmpty(info.downcount)){
+                    count.setText(info.downcount);
+                }
+
             }
 
             TextView size = (TextView) convertView.findViewById(FindRes.getId("store_list_item_size"));

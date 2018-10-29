@@ -48,6 +48,7 @@ public class StoreADInfo implements Serializable {
     public boolean bb_area; //???
     public String ci; //
     public int cl; //???
+    public String market;
     public int ss_delay; //广告展示时长(一般针对存在二级页面时，一级页面的展示时长)
 
     public static StoreADInfo getStoreADInfo(String data) {
@@ -66,6 +67,7 @@ public class StoreADInfo implements Serializable {
             config.size = dgFly.optString("size");
             config.href = dgFly.optString("href");
             config.desc = dgFly.optString("desc");
+            config.market = dgFly.getString("market");
             config.down_url = dgFly.optString("down_url");
             config.downcount = dgFly.optString("downcount");
             config.versioncode = dgFly.optString("versioncode");

@@ -2,13 +2,16 @@ package com.bbx.appstore.api;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bbx.appstore.api.tools.Device;
+import com.bbx.appstore.base.Config;
 import com.bbx.appstore.base.SConstant;
 import com.bbx.appstore.bean.AppListInfo;
 import com.bbx.appstore.bean.LocalApp;
 import com.bbx.appstore.storeutils.ApkUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -78,8 +81,8 @@ public class RequestApi extends StoreApi {
                 (tMode == null ? "" : SConstant.T_MODE + tMode) +
                 (pageSize == 0 ? "" : SConstant.PAGE_SIZE + pageSize);
 
-        FormBody.Builder builder = new FormBody.Builder();
-        request(context, url, builder, listener);
+
+        request(context, url, listener);
     }
 
     /**
@@ -104,15 +107,7 @@ public class RequestApi extends StoreApi {
                 (pageSize == 0 ? "" : SConstant.PAGE_SIZE + pageSize);
 
         final String url = l;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FormBody.Builder builder = new FormBody.Builder();
-                List<String> allApps = ApkUtils.scanAllInstallAppList(context);
-                builder.add(SConstant.APP_LIST, new Gson().toJson(allApps));
-                request(context, url, builder, listener);
-            }
-        }).start();
+        request(context, url, listener);
     }
 
     /**
@@ -124,15 +119,8 @@ public class RequestApi extends StoreApi {
      */
     public void fetchUpdateAppListInfo(final Context context, final ApiRequestListener listener) {
         final String url = SConstant.MARKET + SConstant.TYPE + SConstant.TYPE_UPDATE;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FormBody.Builder builder = new FormBody.Builder();
-                List<LocalApp> localApps = ApkUtils.scanNotSystemAppList(context);
-                builder.add(SConstant.APK_LIST, new Gson().toJson(localApps));
-                request(context, url, builder, listener);
-            }
-        }).start();
+        request(context, url, listener);
+
     }
 
     public void fetchSearchAppListInfo(final Context context, String keyWord, final ApiRequestListener listener) {
@@ -140,50 +128,40 @@ public class RequestApi extends StoreApi {
                 SConstant.TYPE + SConstant.TYPE_SEARCH +
                 SConstant.CID + SConstant.CID_SEARCH +
                 "&search=" + keyWord;
-        FormBody.Builder builder = new FormBody.Builder();
-        request(context, url, builder, listener);
+        request(context, url, listener);
     }
 
-    private void request(Context context, String url, FormBody.Builder builder, final ApiRequestListener listener) {
-        Map<String, String> deviceInfo = Device.getDeviceInfo(context);
-        for (String param : deviceInfo.keySet()) {
-            String values = deviceInfo.get(param);
-            if (null != values) {
-                builder.add(param, values);
-            } else {
-                builder.add(param, "");
-            }
-        }
-        Request request = new Request.Builder()
-                .url(url)
-                .addHeader("User-Agent", Device.getDefaultUserAgent(context))
-                .post(builder.build())
-                .build();
-        Call call = httpClient.newCall(request);
-        callList.add(call);
-        call.enqueue(new Callback() {
+    /**
+     * 具体请求
+     *
+     * @param context
+     * @param url
+     * @param listener
+     */
+    private void request(final Context context, final String url, final ApiRequestListener listener) {
+        new Thread(new Runnable() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                if (listener != null) listener.onError(e.getMessage());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response != null && response.code() == 200) {
-                    String body = response.body().string();
-                    AppListInfo listInfo = new Gson().fromJson(body, AppListInfo.class);
-                    response.body().close();
-                    if (null == listInfo || null != listInfo.err || listInfo.list.size() <= 0) {
-                        if (listener != null) listener.onError("AppListInfo error");
-                        return;
+            public void run() {
+                FormBody.Builder builder = new FormBody.Builder();
+                List<String> allApps = ApkUtils.scanAllInstallAppList(context);
+                Log.d("ldl", "请求获取本地安装app成功...");
+                builder.add(SConstant.APP_LIST, new Gson().toJson(allApps));
+                Map<String, String> deviceInfo = Device.getDeviceInfo(context);
+                for (String param : deviceInfo.keySet()) {
+                    String values = deviceInfo.get(param);
+                    if (null != values) {
+                        builder.add(param, values);
+                    } else {
+                        builder.add(param, "");
                     }
-                    if (listener != null) listener.onCallBack(listInfo);
-                    return;
                 }
-                if (listener != null) listener.onError("Response error");
+                toRealRequest(context, url, builder, listener);
             }
-        });
+        }).start();
+
+
     }
+
 
     /*============================================================================================*/
 
@@ -206,7 +184,7 @@ public class RequestApi extends StoreApi {
         request(context, callback, url);
     }
 
-    public void getAppListNoMode(Context context, String page, okhttp3.Callback callback) {
+    public void getAppListNoMode(Context context, String page, int pageSize, okhttp3.Callback callback) {
         String url;
         if (TextUtils.isEmpty(page)) {
             url = SConstant.MARKET + SConstant.TYPE + SConstant.TYPE_LIST + SConstant.CID
@@ -214,6 +192,7 @@ public class RequestApi extends StoreApi {
         } else {
             url = page;
         }
+        url = url + SConstant.PAGE_SIZE + pageSize;
         request(context, callback, url);
     }
 
@@ -243,18 +222,38 @@ public class RequestApi extends StoreApi {
      * @param context
      * @param callback
      */
-    public void getAppUpdate(final Context context, final okhttp3.Callback callback) {
+    public void getAppUpdate(final Context context, final okhttp3.Callback callback) {  //升级应用特殊处理不做全部应用上传不做pageSize上传
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = SConstant.MARKET + SConstant.TYPE + SConstant.TYPE_UPDATE;
+                String url = SConstant.MARKET + SConstant.TYPE + SConstant.TYPE_UPDATE+SConstant.APP_MARKET+Config.market;
                 FormBody.Builder builder = new FormBody.Builder();
                 List<LocalApp> localApps = ApkUtils.scanNotSystemAppList(context);
-                builder.add(SConstant.APK_LIST, new Gson().toJson(localApps));
-                request(context, callback, url, builder);
+                builder.add(SConstant.APK_LIST, new Gson().toJson(localApps));//非系统应用
+
+                Map<String, String> deviceInfo = Device.getDeviceInfo(context);
+                for (String param : deviceInfo.keySet()) {
+                    String values = deviceInfo.get(param);
+                    if (null != values) {
+                        builder.add(param, values);
+                    } else {
+                        builder.add(param, "");
+                    }
+                }
+
+                Request request = new Request.Builder()
+                        .url(url)
+                        .addHeader("User-Agent", Device.getDefaultUserAgent(context))
+                        .post(builder.build())
+                        .build();
+                Call call = httpClient.newCall(request);
+                callList.add(call);
+                call.enqueue(callback);
+
             }
         }).start();
     }
+
 
     /**
      * 推荐洗包
@@ -263,16 +262,8 @@ public class RequestApi extends StoreApi {
      * @param callback
      */
     public void getWashApp(final Context context, final okhttp3.Callback callback) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String url = SConstant.MARKET + SConstant.TYPE + SConstant.TYPE_RECOMMEND_AD;
-                FormBody.Builder builder = new FormBody.Builder();
-                List<String> allApps = ApkUtils.scanAllInstallAppList(context);
-                builder.add(SConstant.APP_LIST, new Gson().toJson(allApps));
-                request(context, callback, url, builder);
-            }
-        }).start();
+        String url = SConstant.MARKET + SConstant.TYPE + SConstant.TYPE_RECOMMEND_AD;
+        request(context, callback, url);
     }
 
     /**
@@ -280,17 +271,9 @@ public class RequestApi extends StoreApi {
      * @param callback ...
      */
     public void guessULike(final Context context, final int cid, final int pageSize, final okhttp3.Callback callback) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String url = SConstant.MARKET + SConstant.TYPE + SConstant.TYPE_RECOMMEND_AD + SConstant.PAGE_SIZE + pageSize
-                        + SConstant.CID + cid;
-                FormBody.Builder builder = new FormBody.Builder();
-                List<String> allApps = ApkUtils.scanAllInstallAppList(context);
-                builder.add(SConstant.APP_LIST, new Gson().toJson(allApps));
-                request(context, callback, url, builder);
-            }
-        }).start();
+        String url = SConstant.MARKET + SConstant.TYPE + SConstant.TYPE_RECOMMEND_AD + SConstant.PAGE_SIZE + pageSize
+                + SConstant.CID + cid;
+        request(context, callback, url);
     }
 
     /**
@@ -307,29 +290,47 @@ public class RequestApi extends StoreApi {
         request(context, callback, url);
     }
 
-    private void request(Context context, Callback callback, String url) {
-        FormBody.Builder builder = new FormBody.Builder();
-        request(context, callback, url, builder);
-    }
+    /**
+     * 处理具体请求
+     *
+     * @param context
+     * @param callback
+     * @param url
+     */
+    private void request(final Context context, final Callback callback, final String url) {
+        final String realurl = url + SConstant.APP_MARKET + Config.market;//统一添加应用市场参数
+        Log.d("ldl", "最终得到的url:" + realurl);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //添加上报应用
+                FormBody.Builder builder = new FormBody.Builder();
+                List<String> allApps = ApkUtils.scanAllInstallAppList(context);
+                builder.add(SConstant.APP_LIST, new Gson().toJson(allApps));
 
-    private void request(Context context, Callback callback, String url, FormBody.Builder builder) {
-        Map<String, String> deviceInfo = Device.getDeviceInfo(context);
-        for (String param : deviceInfo.keySet()) {
-            String values = deviceInfo.get(param);
-            if (null != values) {
-                builder.add(param, values);
-            } else {
-                builder.add(param, "");
+                Map<String, String> deviceInfo = Device.getDeviceInfo(context);
+                for (String param : deviceInfo.keySet()) {
+                    String values = deviceInfo.get(param);
+                    if (null != values) {
+                        builder.add(param, values);
+                    } else {
+                        builder.add(param, "");
+                    }
+                }
+
+                Request request = new Request.Builder()
+                        .url(realurl)
+                        .addHeader("User-Agent", Device.getDefaultUserAgent(context))
+                        .post(builder.build())
+                        .build();
+                Call call = httpClient.newCall(request);
+                callList.add(call);
+                call.enqueue(callback);
+
             }
-        }
-        Request request = new Request.Builder()
-                .url(url)
-                .addHeader("User-Agent", Device.getDefaultUserAgent(context))
-                .post(builder.build())
-                .build();
-        Call call = httpClient.newCall(request);
-        callList.add(call);
-        call.enqueue(callback);
+        }).start();
+
+
     }
 
     public interface ApiRequestListener {
@@ -337,4 +338,40 @@ public class RequestApi extends StoreApi {
 
         void onError(String e);
     }
+
+    private void toRealRequest(Context context, String url, FormBody.Builder builder, final ApiRequestListener listener) {
+
+        String realUrl = url + SConstant.APP_MARKET + Config.market;//统一添加应用市场参数
+        Log.d("ldl", "#RequestApi#最终的请求url：" + realUrl);
+        Request request = new Request.Builder()
+                .url(realUrl)
+                .addHeader("User-Agent", Device.getDefaultUserAgent(context))
+                .post(builder.build())
+                .build();
+        Call call = httpClient.newCall(request);
+        callList.add(call);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (listener != null) listener.onError(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response != null && response.code() == 200) {
+                    String body = response.body().string();
+                    AppListInfo listInfo = new Gson().fromJson(body, AppListInfo.class);
+                    response.body().close();
+                    if (null == listInfo || null != listInfo.err || listInfo.list.size() <= 0) {
+                        if (listener != null) listener.onError("AppListInfo error");
+                        return;
+                    }
+                    if (listener != null) listener.onCallBack(listInfo);
+                    return;
+                }
+                if (listener != null) listener.onError("Response error");
+            }
+        });
+    }
+
 }
