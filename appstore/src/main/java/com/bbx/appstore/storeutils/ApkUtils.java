@@ -301,7 +301,7 @@ public class ApkUtils {
         List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
         for (PackageInfo info : packageInfos) {
             if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
-                appList.add(new LocalApp(info.packageName, info.versionCode));
+                appList.add(new LocalApp(info.packageName));
             }
         }
         return appList;
@@ -313,7 +313,7 @@ public class ApkUtils {
         List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
         for (PackageInfo info : packageInfos) {
             if ((info.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
-                appList.add(new LocalApp(info.packageName, info.versionCode));
+                appList.add(new LocalApp(info.packageName));
             }
         }
         return appList;

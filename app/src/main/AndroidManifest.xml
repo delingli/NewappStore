@@ -20,7 +20,7 @@
 
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="AA518" />
+            android:value="AA511" />
 
         <activity
             android:name=".MainActivity"

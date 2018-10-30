@@ -115,7 +115,7 @@ public class StoreNearbySecondView extends IView implements DownloadLoopAndInsta
     }
 
     private void getAppList() {
-        RequestApi.getInstance().getAppListNoMode(mContext, bottomPage, new Callback() {
+        RequestApi.getInstance().getAppListNoMode(mContext, bottomPage,8, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 HANDLER.post(new Runnable() {

@@ -71,12 +71,59 @@ public class MainActivity extends Activity {
     }
 
     public void wifi(View view) {
-//        AppStoreHandler.getInstance().show(getApplicationContext(), wifiTest, new AppStoreHandler.OnStoreDestroyListener() {
-//            @Override
-//            public void onDestroy() {
-//                Toast.makeText(getApplicationContext(), "callback", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        String t_wifi="{\n" +
+                "\t\"cnf\": {\n" +
+                "\t\t\"dgfly\": {\n" +
+                "\t\t\t\"appid\": \"\",\n" +
+                "\t\t\t\"apk\": \"\",\n" +
+                "\t\t\t\"adtype\": \"bb_appstore\",\n" +
+                "\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\"show_type\": \"bb_wifi_appstore\",\n" +
+                "\t\t\t\"icon_img\": \"\",\n" +
+                "\t\t\t\"ad_img\": [],\n" +
+                "\t\t\t\"desc\": \"共产党万岁万岁万万岁\",\n" +
+                "\t\t\t\"w\": 1280,\n" +
+                "\t\t\t\"h\": 720,\n" +
+                "\t\t\t\"s_dur\": 60000,\n" +
+                "\t\t\t\"down_url\": \"\",\n" +
+                "\t\t\t\"dplnk\": \"\",\n" +
+                "\t\t\t\"rtp\": false,\n" +
+                "\t\t\t\"rtp1\": false,\n" +
+                "\t\t\t\"ia\": 3,\n" +
+                "\t\t\t\"s_rpt\": [\"http:\\/\\/139.196.171.67:5678\\/dgfly_rpt.php?act=s&ad=maapi&adid=aa02c351&cp=AA506&did=865341030555223&aid=a145468c9f115a51\"],\n" +
+                "\t\t\t\"c_rpt\": [],\n" +
+                "\t\t\t\"d_rpt\": [],\n" +
+                "\t\t\t\"dc_rpt\": [],\n" +
+                "\t\t\t\"market\": \"\",\n" +
+                "\t\t\t\"i_rpt\": [],\n" +
+                "\t\t\t\"a_rpt\": [],\n" +
+                "\t\t\t\"o_rpt\": [],\n" +
+                "\t\t\t\"ad_pack\": \"\",\n" +
+                "\t\t\t\"ad_ver\": \"\",\n" +
+                "\t\t\t\"vsb\": true,\n" +
+                "\t\t\t\"dlsign\": true,\n" +
+                "\t\t\t\"logo\": true,\n" +
+                "\t\t\t\"is_act\": \"1\",\n" +
+                "\t\t\t\"downcount\": \"\",\n" +
+                "\t\t\t\"versioncode\": \"\",\n" +
+                "\t\t\t\"versionname\": \"\",\n" +
+                "\t\t\t\"desc\": \"\",\n" +
+                "\t\t\t\"ci\": \"0\",\n" +
+                "\t\t\t\"in_broser\": false,\n" +
+                "\t\t\t\"cl\": 1,\n" +
+                "\t\t\t\"bb_area\": false,\n" +
+                "\t\t\t\"ss_delay\": 10000\n" +
+                "\t\t}\n" +
+                "\t}\n" +
+                "}";
+        String wifiTest = "{\"cnf\":{\"dgfly\":{\"adtype\":\"bb_appstore\",\"name\":\"\",\"show_type\":\"bb_wifi_appstore\",\"icon_img\":\"\",\"ad_img\":[],\"desc\":\"共产党万岁万岁万万岁\",\"w\":1280,\"h\":720,\"s_dur\":60000,\"down_url\":\"\",\"dplnk\":\"\",\"rtp\":false,\"rtp1\":false,\"ia\":3,\"s_rpt\":[\"http:\\/\\/139.196.171.67:5678\\/dgfly_rpt.php?act=s&ad=maapi&adid=aa02c351&cp=AA506&did=865341030555223&aid=a145468c9f115a51\"],\"c_rpt\":[],\"d_rpt\":[],\"dc_rpt\":[],\"i_rpt\":[],\"a_rpt\":[],\"o_rpt\":[],\"ad_pack\":\"\",\"ad_ver\":\"\",\"vsb\":true,\"dlsign\":true,\"logo\":true,\"is_act\":\"1\",\"ci\":\"0\",\"in_broser\":false,\"cl\":1,\"bb_area\":false,\"ss_delay\":100000}}}";
+
+        AppStoreHandler.getInstance().show(getApplicationContext(), t_wifi, new AppStoreHandler.OnStoreDestroyListener() {
+            @Override
+            public void onDestroy() {
+                Toast.makeText(getApplicationContext(), "callback", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void icon(View view) {
@@ -112,7 +159,45 @@ public class MainActivity extends Activity {
     }
 
     public void down(View view) {
-        String down = "{\"cnf\":{\"dgfly\":{\"adtype\":\"bb_appstore\",\"name\":\"\",\"show_type\":\"bb_update_appstore\",\"icon_img\":\"\",\"ad_img\":[],\"desc\":\"共产党万岁万岁万万岁\",\"w\":1280,\"h\":720,\"s_dur\":60000,\"down_url\":\"\",\"dplnk\":\"\",\"rtp\":false,\"rtp1\":false,\"ia\":3,\"s_rpt\":[\"http:\\/\\/139.196.171.67:5678\\/dgfly_rpt.php?act=s&ad=maapi&adid=aa02c351&cp=AA070&did=865341030555223&aid=a145468c9f115a51\"],\"c_rpt\":[],\"d_rpt\":[],\"dc_rpt\":[],\"i_rpt\":[],\"a_rpt\":[],\"o_rpt\":[],\"ad_pack\":\"\",\"ad_ver\":\"\",\"vsb\":true,\"dlsign\":true,\"logo\":true,\"is_act\":\"1\",\"ci\":\"1\",\"in_broser\":false,\"cl\":1,\"bb_area\":false,\"ss_delay\":10000}}}";
+        String down="{\n" +
+                "\t\"cnf\": {\n" +
+                "\t\t\"dgfly\": {\n" +
+                "\t\t\t\"adtype\": \"bb_appstore\",\n" +
+                "\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\"show_type\": \"bb_update_appstore\",\n" +
+                "\t\t\t\"icon_img\": \"\",\n" +
+                "\t\t\t\"ad_img\": [],\n" +
+                "\t\t\t\"desc\": \"共产党万岁万岁万万岁\",\n" +
+                "\t\t\t\"w\": 1280,\n" +
+                "\t\t\t\"h\": 720,\n" +
+                "\t\t\t\"s_dur\": 60000,\n" +
+                "\t\t\t\"down_url\": \"\",\n" +
+                "\t\t\t\"dplnk\": \"\",\n" +
+                "\t\t\t\"rtp\": false,\n" +
+                "\t\t\t\"rtp1\": false,\n" +
+                "\t\t\t\"ia\": 3,\n" +
+                "\t\t\t\"s_rpt\": [\"http:\\/\\/139.196.171.67:5678\\/dgfly_rpt.php?act=s&ad=maapi&adid=aa02c351&cp=AA070&did=865341030555223&aid=a145468c9f115a51\"],\n" +
+                "\t\t\t\"c_rpt\": [],\n" +
+                "\t\t\t\"d_rpt\": [],\n" +
+                "\t\t\t\"dc_rpt\": [],\n" +
+                "\t\t\t\"i_rpt\": [],\n" +
+                "\t\t\t\"a_rpt\": [],\n" +
+                "\t\t\t\"o_rpt\": [],\n" +
+                "\t\t\t\"ad_pack\": \"\",\n" +
+                "\t\t\t\"ad_ver\": \"\",\n" +
+                "\t\t\t\"vsb\": true,\n" +
+                "\t\t\t\"dlsign\": true,\n" +
+                "\t\t\t\"logo\": true,\n" +
+                "\t\t\t\"is_act\": \"1\",\n" +
+                "\t\t\t\"ci\": \"1\",\n" +
+                "\t\t\t\"in_broser\": false,\n" +
+                "\t\t\t\"cl\": 1,\n" +
+                "\t\t\t\"market\": \"Maapi\",\n" +
+                "\t\t\t\"bb_area\": false,\n" +
+                "\t\t\t\"ss_delay\": 10000\n" +
+                "\t\t}\n" +
+                "\t}\n" +
+                "}";
         AppStoreHandler.getInstance().show(getApplicationContext(), down, new AppStoreHandler.OnStoreDestroyListener() {
             @Override
             public void onDestroy() {
@@ -122,7 +207,45 @@ public class MainActivity extends Activity {
     }
 
     public void bottom(View view) {
-        String dgfly = "{\"cnf\":{\"dgfly\":{\"adtype\":\"bb_appstore\",\"name\":\"\",\"show_type\":\"bb_pullup_appstore\",\"icon_img\":\"\",\"ad_img\":[],\"desc\":\"共产党万岁万岁万万岁\",\"w\":1280,\"h\":720,\"s_dur\":60000,\"down_url\":\"\",\"dplnk\":\"\",\"rtp\":false,\"rtp1\":false,\"ia\":3,\"s_rpt\":[],\"c_rpt\":[],\"d_rpt\":[],\"dc_rpt\":[],\"i_rpt\":[],\"a_rpt\":[],\"o_rpt\":[],\"ad_pack\":\"\",\"ad_ver\":\"\",\"vsb\":true,\"dlsign\":true,\"logo\":true,\"is_act\":\"1\",\"ci\":\"0\",\"in_broser\":false,\"cl\":1,\"bb_area\":false,\"ss_delay\":10000}}}";
+String dgfly="{\n" +
+        "\t\"cnf\": {\n" +
+        "\t\t\"dgfly\": {\n" +
+        "\t\t\t\"adtype\": \"bb_appstore\",\n" +
+        "\t\t\t\"name\": \"\",\n" +
+        "\t\t\t\"show_type\": \"bb_pullup_appstore\",\n" +
+        "\t\t\t\"market\": \"Maapi\",\n" +
+        "\t\t\t\"icon_img\": \"\",\n" +
+        "\t\t\t\"ad_img\": [],\n" +
+        "\t\t\t\"desc\": \"共产党万岁万岁万万岁\",\n" +
+        "\t\t\t\"w\": 1280,\n" +
+        "\t\t\t\"h\": 720,\n" +
+        "\t\t\t\"s_dur\": 60000,\n" +
+        "\t\t\t\"down_url\": \"\",\n" +
+        "\t\t\t\"dplnk\": \"\",\n" +
+        "\t\t\t\"rtp\": false,\n" +
+        "\t\t\t\"rtp1\": false,\n" +
+        "\t\t\t\"ia\": 3,\n" +
+        "\t\t\t\"s_rpt\": [],\n" +
+        "\t\t\t\"c_rpt\": [],\n" +
+        "\t\t\t\"d_rpt\": [],\n" +
+        "\t\t\t\"dc_rpt\": [],\n" +
+        "\t\t\t\"i_rpt\": [],\n" +
+        "\t\t\t\"a_rpt\": [],\n" +
+        "\t\t\t\"o_rpt\": [],\n" +
+        "\t\t\t\"ad_pack\": \"\",\n" +
+        "\t\t\t\"ad_ver\": \"\",\n" +
+        "\t\t\t\"vsb\": true,\n" +
+        "\t\t\t\"dlsign\": true,\n" +
+        "\t\t\t\"logo\": true,\n" +
+        "\t\t\t\"is_act\": \"1\",\n" +
+        "\t\t\t\"ci\": \"0\",\n" +
+        "\t\t\t\"in_broser\": false,\n" +
+        "\t\t\t\"cl\": 1,\n" +
+        "\t\t\t\"bb_area\": false,\n" +
+        "\t\t\t\"ss_delay\": 10000\n" +
+        "\t\t}\n" +
+        "\t}\n" +
+        "}";
         AppStoreHandler.getInstance().show(getApplicationContext(), dgfly, new AppStoreHandler.OnStoreDestroyListener() {
             @Override
             public void onDestroy() {
@@ -132,7 +255,45 @@ public class MainActivity extends Activity {
     }
 
     public void secondInstall(View view) {
-        String dgfly = "{\"cnf\":{\"dgfly\":{\"adtype\":\"bb_appstore\",\"name\":\"天天快报\",\"show_type\":\"bb_electricity_appstore\",\"icon_img\":\"\",\"ad_img\":[],\"desc\":\"请尽快充电呀|畅玩无忧呀|肆不忌惮呀\",\"w\":1280,\"h\":720,\"s_dur\":60000,\"down_url\":\"\",\"dplnk\":\"\",\"rtp\":false,\"rtp1\":false,\"ia\":3,\"s_rpt\":[],\"c_rpt\":[],\"d_rpt\":[],\"dc_rpt\":[],\"i_rpt\":[],\"a_rpt\":[],\"o_rpt\":[],\"ad_pack\":\"\",\"ad_ver\":\"\",\"vsb\":true,\"dlsign\":true,\"logo\":true,\"is_act\":\"1\",\"ci\":\"0\",\"in_broser\":false,\"cl\":0,\"bb_area\":false,\"ss_delay\":10000}}}";
+  String dgfly="{\n" +
+          "\t\"cnf\": {\n" +
+          "\t\t\"dgfly\": {\n" +
+          "\t\t\t\"adtype\": \"bb_appstore\",\n" +
+          "\t\t\t\"name\": \"天天快报\",\n" +
+          "\t\t\t\"show_type\": \"bb_electricity_appstore\",\n" +
+          "\t\t\t\"icon_img\": \"\",\n" +
+          "\t\t\t\"ad_img\": [],\n" +
+          "\t\t\t\"desc\": \"请尽快充电呀|畅玩无忧呀|肆不忌惮呀\",\n" +
+          "\t\t\t\"w\": 1280,\n" +
+          "\t\t\t\"h\": 720,\n" +
+          "\t\t\t\"s_dur\": 60000,\n" +
+          "\t\t\t\"down_url\": \"\",\n" +
+          "\t\t\t\"dplnk\": \"\",\n" +
+          "\t\t\t\"rtp\": false,\n" +
+          "\t\t\t\"rtp1\": false,\n" +
+          "\t\t\t\"ia\": 3,\n" +
+          "\t\t\t\"s_rpt\": [],\n" +
+          "\t\t\t\"c_rpt\": [],\n" +
+          "\t\t\t\"d_rpt\": [],\n" +
+          "\t\t\t\"dc_rpt\": [],\n" +
+          "\t\t\t\"i_rpt\": [],\n" +
+          "\t\t\t\"a_rpt\": [],\n" +
+          "\t\t\t\"o_rpt\": [],\n" +
+          "\t\t\t\"ad_pack\": \"\",\n" +
+          "\t\t\t\"ad_ver\": \"\",\n" +
+          "\t\t\t\"vsb\": true,\n" +
+          "\t\t\t\"dlsign\": true,\n" +
+          "\t\t\t\"logo\": true,\n" +
+          "\t\t\t\"market\": \"ceshi\",\n" +
+          "\t\t\t\"is_act\": \"1\",\n" +
+          "\t\t\t\"ci\": \"0\",\n" +
+          "\t\t\t\"in_broser\": false,\n" +
+          "\t\t\t\"cl\": 0,\n" +
+          "\t\t\t\"bb_area\": false,\n" +
+          "\t\t\t\"ss_delay\": 10000\n" +
+          "\t\t}\n" +
+          "\t}\n" +
+          "}";
         AppStoreHandler.getInstance().show(getApplicationContext(), dgfly, new AppStoreHandler.OnStoreDestroyListener() {
             @Override
             public void onDestroy() {
@@ -143,7 +304,45 @@ public class MainActivity extends Activity {
 
     public void power(View view) {
 //  String str=      "{\"cnf":{"dgfly":{"adtype":"bb_appstore","name":"","show_type":"bb_carousel_appstore","icon_img":"","ad_img":[],"desc":"","w":1280,"h":720,"s_dur":50000,"down_url":"","dplnk":"","rtp":false,"rtp1":false,"ia":3,"s_rpt":["http:\/\/101.132.170.187:7701\/dgfly_rpt.php?reqid=1538203701.986899.c980b&act=s&ad=maapi&adid=5929432b&cp=AA518&did=865122031741024&aid=dd296732460a1ac0"],"c_rpt":[],"d_rpt":[],"dc_rpt":[],"i_rpt":[],"a_rpt":[],"o_rpt":[],"ad_pack":"banner","ad_ver":"","ss_delay":50000,"vsb":true,"dlsign":true,"logo":true,"is_act":"1","ci":"1","in_broser":false,"cl":1,"bb_area":false,"aicnf":[]}}};
-        String dgfly = "{\"cnf\":{\"dgfly\":{\"adtype\":\"bb_appstore\",\"name\":\"QQ\",\"show_type\":\"bb_carousel_appstore\",\"icon_img\":\"\",\"ad_img\":[],\"desc\":\"请尽快充电呀|畅玩无忧呀|肆不忌惮呀\",\"w\":1280,\"h\":720,\"s_dur\":60000,\"down_url\":\"\",\"dplnk\":\"\",\"rtp\":false,\"rtp1\":false,\"ia\":3,\"s_rpt\":[],\"c_rpt\":[],\"d_rpt\":[],\"dc_rpt\":[],\"i_rpt\":[],\"a_rpt\":[],\"o_rpt\":[],\"ad_pack\":\"\",\"ad_ver\":\"\",\"vsb\":true,\"dlsign\":true,\"logo\":true,\"is_act\":\"1\",\"ci\":\"1\",\"in_broser\":false,\"cl\":1,\"bb_area\":false,\"ss_delay\":10000}}}";
+     String dgfly="{\n" +
+             "\t\"cnf\": {\n" +
+             "\t\t\"dgfly\": {\n" +
+             "\t\t\t\"adtype\": \"bb_appstore\",\n" +
+             "\t\t\t\"name\": \"QQ\",\n" +
+             "\t\t\t\"show_type\": \"bb_carousel_appstore\",\n" +
+             "\t\t\t\"icon_img\": \"\",\n" +
+             "\t\t\t\"ad_img\": [],\n" +
+             "\t\t\t\"desc\": \"请尽快充电呀|畅玩无忧呀|肆不忌惮呀\",\n" +
+             "\t\t\t\"w\": 1280,\n" +
+             "\t\t\t\"h\": 720,\n" +
+             "\t\t\t\"s_dur\": 60000,\n" +
+             "\t\t\t\"down_url\": \"\",\n" +
+             "\t\t\t\"dplnk\": \"\",\n" +
+             "\t\t\t\"rtp\": false,\n" +
+             "\t\t\t\"rtp1\": false,\n" +
+             "\t\t\t\"ia\": 3,\n" +
+             "\t\t\t\"s_rpt\": [],\n" +
+             "\t\t\t\"c_rpt\": [],\n" +
+             "\t\t\t\"d_rpt\": [],\n" +
+             "\t\t\t\"dc_rpt\": [],\n" +
+             "\t\t\t\"i_rpt\": [],\n" +
+             "\t\t\t\"a_rpt\": [],\n" +
+             "\t\t\t\"o_rpt\": [],\n" +
+             "\t\t\t\"ad_pack\": \"\",\n" +
+             "\t\t\t\"ad_ver\": \"\",\n" +
+             "\t\t\t\"vsb\": true,\n" +
+             "\t\t\t\"dlsign\": true,\n" +
+             "\t\t\t\"logo\": true,\n" +
+             "\t\t\t\"is_act\": \"1\",\n" +
+             "\t\t\t\"ci\": \"1\",\n" +
+             "\t\t\t\"in_broser\": false,\n" +
+             "\t\t\t\"cl\": 1,\n" +
+             "\t\t\t\"bb_area\": false,\n" +
+             "\t\t\t\"market\": \"Maapi\",\n" +
+             "\t\t\t\"ss_delay\": 10000\n" +
+             "\t\t}\n" +
+             "\t}\n" +
+             "}";
         AppStoreHandler.getInstance().show(getApplicationContext(), dgfly, new AppStoreHandler.OnStoreDestroyListener() {
             @Override
             public void onDestroy() {

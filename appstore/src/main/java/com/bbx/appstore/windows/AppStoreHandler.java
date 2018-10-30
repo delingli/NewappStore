@@ -2,6 +2,7 @@ package com.bbx.appstore.windows;
 
 import android.content.Context;
 
+import com.bbx.appstore.base.Config;
 import com.bbx.appstore.base.SConstant;
 import com.bbx.appstore.bean.StoreADInfo;
 import com.bbx.appstore.download.DownloadLoopAndInstall;
@@ -36,6 +37,7 @@ public class AppStoreHandler {
     public void show(Context context, String data, OnStoreDestroyListener listener) {
         StoreADInfo info = StoreADInfo.getStoreADInfo(data);
         if (!SConstant.AD_TYPE.equals(info.adtype)) return;
+        Config.market = info.market;
         WindowHandler.getInstance().setOnDestroyListener(listener);
         switch (info.show_type) {
             case SConstant.SHOW_TYPE_NOTIFY:
