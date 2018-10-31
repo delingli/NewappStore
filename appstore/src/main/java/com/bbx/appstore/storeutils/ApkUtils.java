@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.bbx.appstore.bean.AppUpdateLocalApp;
 import com.bbx.appstore.bean.DownloadCart;
 import com.bbx.appstore.bean.LocalApp;
 
@@ -295,13 +296,13 @@ public class ApkUtils {
         return appList;
     }
 
-    public static List<LocalApp> scanNotSystemAppList(Context context) {
-        List<LocalApp> appList = new ArrayList<>();
+    public static List<AppUpdateLocalApp> scanNotSystemAppList(Context context) {
+        List<AppUpdateLocalApp> appList = new ArrayList<>();
         PackageManager pm = context.getPackageManager();
         List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
         for (PackageInfo info : packageInfos) {
             if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
-                appList.add(new LocalApp(info.packageName));
+                appList.add(new AppUpdateLocalApp(info.packageName,info.versionCode));
             }
         }
         return appList;

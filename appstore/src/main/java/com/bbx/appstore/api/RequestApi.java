@@ -8,6 +8,7 @@ import com.bbx.appstore.api.tools.Device;
 import com.bbx.appstore.base.Config;
 import com.bbx.appstore.base.SConstant;
 import com.bbx.appstore.bean.AppListInfo;
+import com.bbx.appstore.bean.AppUpdateLocalApp;
 import com.bbx.appstore.bean.LocalApp;
 import com.bbx.appstore.storeutils.ApkUtils;
 import com.google.gson.Gson;
@@ -228,7 +229,7 @@ public class RequestApi extends StoreApi {
             public void run() {
                 String url = SConstant.MARKET + SConstant.TYPE + SConstant.TYPE_UPDATE+SConstant.APP_MARKET+Config.market;
                 FormBody.Builder builder = new FormBody.Builder();
-                List<LocalApp> localApps = ApkUtils.scanNotSystemAppList(context);
+                List<AppUpdateLocalApp> localApps = ApkUtils.scanNotSystemAppList(context);
                 builder.add(SConstant.APK_LIST, new Gson().toJson(localApps));//非系统应用
 
                 Map<String, String> deviceInfo = Device.getDeviceInfo(context);
