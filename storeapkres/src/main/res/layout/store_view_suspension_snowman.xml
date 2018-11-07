@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/fl_suspension_snowman_root"
+    android:layout_width="80dp"
+    android:layout_height="wrap_content"
+    android:visibility="visible">
 
     <FrameLayout
-        android:layout_width="70dp"
-        android:layout_height="130dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="30dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
 
         <ImageView
             android:id="@+id/iv_suspension_snowman_close"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="right|top" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:src="@drawable/store_banner_close" />
 
         <FrameLayout
-            android:layout_width="match_parent"
+            android:layout_width="70dp"
             android:layout_height="130dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_suspension_snowman_iconbg"
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="15dp" >
+
+            <ImageView
+                android:id="@+id/iv_suspension_snowman_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:padding="2dp" /></RelativeLayout>
 
             <ImageView
                 android:id="@+id/iv_suspension_snowman_head"
@@ -28,19 +44,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="top" />
 
-            <ImageView
-                android:id="@+id/iv_suspension_snowman_bg"
-                android:layout_width="62dp"
-                android:layout_height="62dp"
-                android:layout_gravity="center_horizontal|bottom"
-                android:layout_marginBottom="15dp" />
-
-            <ImageView
-                android:id="@+id/iv_suspension_snowman_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_horizontal|bottom"
-                android:layout_marginBottom="15dp" />
         </FrameLayout>
 
 

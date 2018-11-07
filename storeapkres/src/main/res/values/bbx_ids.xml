@@ -266,24 +266,35 @@
     <item name="suspension_antlers_close" type="id" />
     <item name="suspension_antlers_head" type="id" />
     <item name="suspension_antlers_icon" type="id" />
+    <item name="rl_suspension_antlers_root" type="id" />
+
     <!--皇冠样式-->
     <item name="iv_suspension_crown_close" type="id" />
     <item name="iv_suspension_crown_head" type="id" />
     <item name="rl_suspension_crown_bg" type="id" />
     <item name="iv_suspension_crown_icon" type="id" />
+    <item name="rl_suspension_crown_root" type="id" />
+
 
     <!--玻璃瓶样式-->
     <item name="iv_suspension_glass_close" type="id" />
     <item name="iv_suspension_glass_head" type="id" />
     <item name="rl_suspension_glass_bg" type="id" />
     <item name="iv_suspension_glass_icon" type="id" />
+    <item name="fl_suspension_glass_content" type="id" />
+
     <!--中国结-->
     <item name="rl_suspension_knot_bg" type="id" />
     <item name="iv_suspension_knot_close" type="id" />
     <item name="iv_suspension_knot_icon" type="id" />
+    <item name="rl_suspension_knot_root" type="id" />
+
     <!--雪人-->
     <item name="iv_suspension_snowman_close" type="id" />
     <item name="iv_suspension_snowman_head" type="id" />
-    <item name="iv_suspension_snowman_bg" type="id" />
     <item name="iv_suspension_snowman_icon" type="id" />
+    <item name="fl_suspension_snowman_root" type="id" />
+    <item name="rl_suspension_snowman_iconbg" type="id" />
+
+
 </resources>

@@ -14,11 +14,15 @@ import com.bbx.appstore.manager.FloatWindowManager;
 import com.bbx.appstore.rec.FindRes;
 import com.bbx.appstore.storeutils.ApkUtils;
 import com.bbx.appstore.view.IView;
+import com.bbx.appstore.view.StoreAntlersView;
 import com.bbx.appstore.view.StoreBannerView;
 import com.bbx.appstore.view.StoreBatteryTipsView;
+import com.bbx.appstore.view.StoreCrownView;
 import com.bbx.appstore.view.StoreDetailView;
 import com.bbx.appstore.view.StoreDialogView;
 import com.bbx.appstore.view.StoreDownStoreView;
+import com.bbx.appstore.view.StoreGlassView;
+import com.bbx.appstore.view.StoreKnotView;
 import com.bbx.appstore.view.StoreListView;
 import com.bbx.appstore.view.StoreNearbySecondView;
 import com.bbx.appstore.view.StoreNearbyView;
@@ -32,6 +36,7 @@ import com.bbx.appstore.view.StoreRepeatPlayView;
 import com.bbx.appstore.view.StoreRollWifiView;
 import com.bbx.appstore.view.StoreSearchView;
 import com.bbx.appstore.view.StoreSecondInstallView;
+import com.bbx.appstore.view.StoreSnowManView;
 import com.bbx.appstore.view.StoreUpdateListView;
 import com.bbx.appstore.view.StoreWifiView;
 import com.google.gson.Gson;
@@ -139,6 +144,7 @@ public class WindowHandler {
         FloatWindowManager.getInstance().show(windowView, null);
         if (DBG) Log.e(TAG, "DB_STORE# showStoreNotify");
     }
+
     public void showStoreNewNotify(StoreADInfo info) { //需要外围传入数据 修改Notify
         cleanWindow();
         windowView = new StoreNewNotifyView(info);
@@ -191,6 +197,65 @@ public class WindowHandler {
         if (DBG) Log.e(TAG, "DB_STORE# showStoreNearbySecond");
     }
 
+    /**
+     * 悬浮窗-玻璃瓶样式
+     *
+     * @param info
+     */
+    public void showStoreGlassView(StoreADInfo info) {
+        cleanWindow();
+        windowView = new StoreGlassView(info);
+        FloatWindowManager.getInstance().show(windowView, null);
+        if (DBG) Log.e(TAG, "DB_STORE# showStoreGlassView");
+    }
+
+    /**
+     * 悬浮窗-皇冠样式
+     *
+     * @param info
+     */
+    public void showStoreCrownView(StoreADInfo info) {
+        cleanWindow();
+        windowView = new StoreCrownView(info);
+        FloatWindowManager.getInstance().show(windowView, null);
+        if (DBG) Log.e(TAG, "DB_STORE# showStoreCrownView");
+    }
+
+    /**
+     * 悬浮窗- 雪人样式
+     *
+     * @param info
+     */
+    public void showStoreSnowManView(StoreADInfo info) {
+        cleanWindow();
+        windowView = new StoreSnowManView(info);
+        FloatWindowManager.getInstance().show(windowView, null);
+        if (DBG) Log.e(TAG, "DB_STORE# showStoreSnowManView");
+    }
+
+    /**
+     * 悬浮窗- 鹿角样式
+     *
+     * @param info
+     */
+    public void showStoreKnotView(StoreADInfo info) {
+        cleanWindow();
+        windowView = new StoreKnotView(info);
+        FloatWindowManager.getInstance().show(windowView, null);
+        if (DBG) Log.e(TAG, "DB_STORE# showStoreKnotView");
+    }
+
+    /**
+     * 悬浮窗- 中国结样式
+     *
+     * @param info
+     */
+    public void showStoreAntlersView(StoreADInfo info) {
+        cleanWindow();
+        windowView = new StoreAntlersView(info);
+        FloatWindowManager.getInstance().show(windowView, null);
+        if (DBG) Log.e(TAG, "DB_STORE# showStoreAntlersView");
+    }
     /*-------- 4 -------*/
 
     public void showStorePowerView(StoreADInfo info) {
