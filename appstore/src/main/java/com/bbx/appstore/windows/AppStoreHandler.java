@@ -43,7 +43,7 @@ public class AppStoreHandler {
             case SConstant.SHOW_TYPE_NOTIFY:
                 try {
                     if (ApkUtils.DOWNLOAD == ApkUtils.checkNeedDownload(context, info.apk, Integer.valueOf(info.versioncode))) {
-                        WindowHandler.getInstance().showStoreNotify(info);
+                        WindowHandler.getInstance().showStoreNewNotify(info);
                     } else {
                         if (null != listener) listener.onDestroy();
                         return;

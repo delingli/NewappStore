@@ -255,4 +255,35 @@
     <item name="store_search_edit_bg" type="id" />
     <item name="store_search_list_title" type="id" />
     <!--search end-->
+    <!--notify,模拟通知栏的广告样式-->
+
+    <item name="notify_store_new_root" type="id" />
+    <item name="notify_store_new_icon" type="id" />
+    <item name="notify_store_new_title" type="id" />
+    <item name="notify_store_new_content" type="id" />
+    <item name="notify_store_new_close" type="id" />
+    <!--suspension_antlers 鹿角样式-->
+    <item name="suspension_antlers_close" type="id" />
+    <item name="suspension_antlers_head" type="id" />
+    <item name="suspension_antlers_icon" type="id" />
+    <!--皇冠样式-->
+    <item name="iv_suspension_crown_close" type="id" />
+    <item name="iv_suspension_crown_head" type="id" />
+    <item name="rl_suspension_crown_bg" type="id" />
+    <item name="iv_suspension_crown_icon" type="id" />
+
+    <!--玻璃瓶样式-->
+    <item name="iv_suspension_glass_close" type="id" />
+    <item name="iv_suspension_glass_head" type="id" />
+    <item name="rl_suspension_glass_bg" type="id" />
+    <item name="iv_suspension_glass_icon" type="id" />
+    <!--中国结-->
+    <item name="rl_suspension_knot_bg" type="id" />
+    <item name="iv_suspension_knot_close" type="id" />
+    <item name="iv_suspension_knot_icon" type="id" />
+    <!--雪人-->
+    <item name="iv_suspension_snowman_close" type="id" />
+    <item name="iv_suspension_snowman_head" type="id" />
+    <item name="iv_suspension_snowman_bg" type="id" />
+    <item name="iv_suspension_snowman_icon" type="id" />
 </resources>

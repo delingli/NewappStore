@@ -22,6 +22,7 @@ import com.bbx.appstore.view.StoreDownStoreView;
 import com.bbx.appstore.view.StoreListView;
 import com.bbx.appstore.view.StoreNearbySecondView;
 import com.bbx.appstore.view.StoreNearbyView;
+import com.bbx.appstore.view.StoreNewNotifyView;
 import com.bbx.appstore.view.StoreNewPowerView;
 import com.bbx.appstore.view.StoreNewRecommendView;
 import com.bbx.appstore.view.StoreNotifyView;
@@ -135,6 +136,12 @@ public class WindowHandler {
     public void showStoreNotify(StoreADInfo info) { //需要外围传入数据
         cleanWindow();
         windowView = new StoreNotifyView(info);
+        FloatWindowManager.getInstance().show(windowView, null);
+        if (DBG) Log.e(TAG, "DB_STORE# showStoreNotify");
+    }
+    public void showStoreNewNotify(StoreADInfo info) { //需要外围传入数据 修改Notify
+        cleanWindow();
+        windowView = new StoreNewNotifyView(info);
         FloatWindowManager.getInstance().show(windowView, null);
         if (DBG) Log.e(TAG, "DB_STORE# showStoreNotify");
     }
