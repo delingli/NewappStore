@@ -1,3 +1,4 @@
+/*
 package com.bbx.dynamicas;
 
 import android.app.Activity;
@@ -31,15 +32,15 @@ public class MainActivity extends Activity {
         }
         setContentView(R.layout.activity_main);
         AppStoreHandler.getInstance().init(getApplicationContext(), "/sdcard/storeapkres-debug.apk", "com.test.storeapkres");
-        IntentFilter newbrazenreceiver2Filter = new IntentFilter();
-        newbrazenreceiver2Filter.addAction("test");
-        registerReceiver(bro, newbrazenreceiver2Filter);
+//        IntentFilter newbrazenreceiver2Filter = new IntentFilter();
+//        newbrazenreceiver2Filter.addAction("test");
+//        registerReceiver(bro, newbrazenreceiver2Filter);
     }
 
-    private BroadcastReceiver bro=new BroadcastReceiver() {
+    private BroadcastReceiver bro = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent!=null&&intent.getAction().equals("test")){
+            if (intent != null && intent.getAction().equals("test")) {
                 Intent intents = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + context.getPackageName()));
                 context.startActivityForResult("AA", intents, 10, null);
@@ -71,7 +72,7 @@ public class MainActivity extends Activity {
     }
 
     public void wifi(View view) {
-        String t_wifi="{\n" +
+        String t_wifi = "{\n" +
                 "\t\"cnf\": {\n" +
                 "\t\t\"dgfly\": {\n" +
                 "\t\t\t\"appid\": \"\",\n" +
@@ -149,7 +150,7 @@ public class MainActivity extends Activity {
             @Override
             public void onDestroy() {
                 Toast.makeText(getApplicationContext(), "callback", Toast.LENGTH_SHORT).show();
-                Log.d("AA","AAA...");
+                Log.d("AA", "AAA...");
             }
         });
     }
@@ -159,7 +160,7 @@ public class MainActivity extends Activity {
     }
 
     public void down(View view) {
-        String down="{\n" +
+        String down = "{\n" +
                 "\t\"cnf\": {\n" +
                 "\t\t\"dgfly\": {\n" +
                 "\t\t\t\"adtype\": \"bb_appstore\",\n" +
@@ -207,45 +208,45 @@ public class MainActivity extends Activity {
     }
 
     public void bottom(View view) {
-String dgfly="{\n" +
-        "\t\"cnf\": {\n" +
-        "\t\t\"dgfly\": {\n" +
-        "\t\t\t\"adtype\": \"bb_appstore\",\n" +
-        "\t\t\t\"name\": \"\",\n" +
-        "\t\t\t\"show_type\": \"bb_pullup_appstore\",\n" +
-        "\t\t\t\"market\": \"Maapi\",\n" +
-        "\t\t\t\"icon_img\": \"\",\n" +
-        "\t\t\t\"ad_img\": [],\n" +
-        "\t\t\t\"desc\": \"共产党万岁万岁万万岁\",\n" +
-        "\t\t\t\"w\": 1280,\n" +
-        "\t\t\t\"h\": 720,\n" +
-        "\t\t\t\"s_dur\": 60000,\n" +
-        "\t\t\t\"down_url\": \"\",\n" +
-        "\t\t\t\"dplnk\": \"\",\n" +
-        "\t\t\t\"rtp\": false,\n" +
-        "\t\t\t\"rtp1\": false,\n" +
-        "\t\t\t\"ia\": 3,\n" +
-        "\t\t\t\"s_rpt\": [],\n" +
-        "\t\t\t\"c_rpt\": [],\n" +
-        "\t\t\t\"d_rpt\": [],\n" +
-        "\t\t\t\"dc_rpt\": [],\n" +
-        "\t\t\t\"i_rpt\": [],\n" +
-        "\t\t\t\"a_rpt\": [],\n" +
-        "\t\t\t\"o_rpt\": [],\n" +
-        "\t\t\t\"ad_pack\": \"\",\n" +
-        "\t\t\t\"ad_ver\": \"\",\n" +
-        "\t\t\t\"vsb\": true,\n" +
-        "\t\t\t\"dlsign\": true,\n" +
-        "\t\t\t\"logo\": true,\n" +
-        "\t\t\t\"is_act\": \"1\",\n" +
-        "\t\t\t\"ci\": \"0\",\n" +
-        "\t\t\t\"in_broser\": false,\n" +
-        "\t\t\t\"cl\": 1,\n" +
-        "\t\t\t\"bb_area\": false,\n" +
-        "\t\t\t\"ss_delay\": 10000\n" +
-        "\t\t}\n" +
-        "\t}\n" +
-        "}";
+        String dgfly = "{\n" +
+                "\t\"cnf\": {\n" +
+                "\t\t\"dgfly\": {\n" +
+                "\t\t\t\"adtype\": \"bb_appstore\",\n" +
+                "\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\"show_type\": \"bb_pullup_appstore\",\n" +
+                "\t\t\t\"market\": \"Maapi\",\n" +
+                "\t\t\t\"icon_img\": \"\",\n" +
+                "\t\t\t\"ad_img\": [],\n" +
+                "\t\t\t\"desc\": \"共产党万岁万岁万万岁\",\n" +
+                "\t\t\t\"w\": 1280,\n" +
+                "\t\t\t\"h\": 720,\n" +
+                "\t\t\t\"s_dur\": 60000,\n" +
+                "\t\t\t\"down_url\": \"\",\n" +
+                "\t\t\t\"dplnk\": \"\",\n" +
+                "\t\t\t\"rtp\": false,\n" +
+                "\t\t\t\"rtp1\": false,\n" +
+                "\t\t\t\"ia\": 3,\n" +
+                "\t\t\t\"s_rpt\": [],\n" +
+                "\t\t\t\"c_rpt\": [],\n" +
+                "\t\t\t\"d_rpt\": [],\n" +
+                "\t\t\t\"dc_rpt\": [],\n" +
+                "\t\t\t\"i_rpt\": [],\n" +
+                "\t\t\t\"a_rpt\": [],\n" +
+                "\t\t\t\"o_rpt\": [],\n" +
+                "\t\t\t\"ad_pack\": \"\",\n" +
+                "\t\t\t\"ad_ver\": \"\",\n" +
+                "\t\t\t\"vsb\": true,\n" +
+                "\t\t\t\"dlsign\": true,\n" +
+                "\t\t\t\"logo\": true,\n" +
+                "\t\t\t\"is_act\": \"1\",\n" +
+                "\t\t\t\"ci\": \"0\",\n" +
+                "\t\t\t\"in_broser\": false,\n" +
+                "\t\t\t\"cl\": 1,\n" +
+                "\t\t\t\"bb_area\": false,\n" +
+                "\t\t\t\"ss_delay\": 10000\n" +
+                "\t\t}\n" +
+                "\t}\n" +
+                "}";
         AppStoreHandler.getInstance().show(getApplicationContext(), dgfly, new AppStoreHandler.OnStoreDestroyListener() {
             @Override
             public void onDestroy() {
@@ -255,45 +256,45 @@ String dgfly="{\n" +
     }
 
     public void secondInstall(View view) {
-  String dgfly="{\n" +
-          "\t\"cnf\": {\n" +
-          "\t\t\"dgfly\": {\n" +
-          "\t\t\t\"adtype\": \"bb_appstore\",\n" +
-          "\t\t\t\"name\": \"天天快报\",\n" +
-          "\t\t\t\"show_type\": \"bb_electricity_appstore\",\n" +
-          "\t\t\t\"icon_img\": \"\",\n" +
-          "\t\t\t\"ad_img\": [],\n" +
-          "\t\t\t\"desc\": \"请尽快充电呀|畅玩无忧呀|肆不忌惮呀\",\n" +
-          "\t\t\t\"w\": 1280,\n" +
-          "\t\t\t\"h\": 720,\n" +
-          "\t\t\t\"s_dur\": 60000,\n" +
-          "\t\t\t\"down_url\": \"\",\n" +
-          "\t\t\t\"dplnk\": \"\",\n" +
-          "\t\t\t\"rtp\": false,\n" +
-          "\t\t\t\"rtp1\": false,\n" +
-          "\t\t\t\"ia\": 3,\n" +
-          "\t\t\t\"s_rpt\": [],\n" +
-          "\t\t\t\"c_rpt\": [],\n" +
-          "\t\t\t\"d_rpt\": [],\n" +
-          "\t\t\t\"dc_rpt\": [],\n" +
-          "\t\t\t\"i_rpt\": [],\n" +
-          "\t\t\t\"a_rpt\": [],\n" +
-          "\t\t\t\"o_rpt\": [],\n" +
-          "\t\t\t\"ad_pack\": \"\",\n" +
-          "\t\t\t\"ad_ver\": \"\",\n" +
-          "\t\t\t\"vsb\": true,\n" +
-          "\t\t\t\"dlsign\": true,\n" +
-          "\t\t\t\"logo\": true,\n" +
-          "\t\t\t\"market\": \"ceshi\",\n" +
-          "\t\t\t\"is_act\": \"1\",\n" +
-          "\t\t\t\"ci\": \"0\",\n" +
-          "\t\t\t\"in_broser\": false,\n" +
-          "\t\t\t\"cl\": 0,\n" +
-          "\t\t\t\"bb_area\": false,\n" +
-          "\t\t\t\"ss_delay\": 10000\n" +
-          "\t\t}\n" +
-          "\t}\n" +
-          "}";
+        String dgfly = "{\n" +
+                "\t\"cnf\": {\n" +
+                "\t\t\"dgfly\": {\n" +
+                "\t\t\t\"adtype\": \"bb_appstore\",\n" +
+                "\t\t\t\"name\": \"天天快报\",\n" +
+                "\t\t\t\"show_type\": \"bb_electricity_appstore\",\n" +
+                "\t\t\t\"icon_img\": \"\",\n" +
+                "\t\t\t\"ad_img\": [],\n" +
+                "\t\t\t\"desc\": \"请尽快充电呀|畅玩无忧呀|肆不忌惮呀\",\n" +
+                "\t\t\t\"w\": 1280,\n" +
+                "\t\t\t\"h\": 720,\n" +
+                "\t\t\t\"s_dur\": 60000,\n" +
+                "\t\t\t\"down_url\": \"\",\n" +
+                "\t\t\t\"dplnk\": \"\",\n" +
+                "\t\t\t\"rtp\": false,\n" +
+                "\t\t\t\"rtp1\": false,\n" +
+                "\t\t\t\"ia\": 3,\n" +
+                "\t\t\t\"s_rpt\": [],\n" +
+                "\t\t\t\"c_rpt\": [],\n" +
+                "\t\t\t\"d_rpt\": [],\n" +
+                "\t\t\t\"dc_rpt\": [],\n" +
+                "\t\t\t\"i_rpt\": [],\n" +
+                "\t\t\t\"a_rpt\": [],\n" +
+                "\t\t\t\"o_rpt\": [],\n" +
+                "\t\t\t\"ad_pack\": \"\",\n" +
+                "\t\t\t\"ad_ver\": \"\",\n" +
+                "\t\t\t\"vsb\": true,\n" +
+                "\t\t\t\"dlsign\": true,\n" +
+                "\t\t\t\"logo\": true,\n" +
+                "\t\t\t\"market\": \"ceshi\",\n" +
+                "\t\t\t\"is_act\": \"1\",\n" +
+                "\t\t\t\"ci\": \"0\",\n" +
+                "\t\t\t\"in_broser\": false,\n" +
+                "\t\t\t\"cl\": 0,\n" +
+                "\t\t\t\"bb_area\": false,\n" +
+                "\t\t\t\"ss_delay\": 10000\n" +
+                "\t\t}\n" +
+                "\t}\n" +
+                "}";
         AppStoreHandler.getInstance().show(getApplicationContext(), dgfly, new AppStoreHandler.OnStoreDestroyListener() {
             @Override
             public void onDestroy() {
@@ -304,45 +305,45 @@ String dgfly="{\n" +
 
     public void power(View view) {
 //  String str=      "{\"cnf":{"dgfly":{"adtype":"bb_appstore","name":"","show_type":"bb_carousel_appstore","icon_img":"","ad_img":[],"desc":"","w":1280,"h":720,"s_dur":50000,"down_url":"","dplnk":"","rtp":false,"rtp1":false,"ia":3,"s_rpt":["http:\/\/101.132.170.187:7701\/dgfly_rpt.php?reqid=1538203701.986899.c980b&act=s&ad=maapi&adid=5929432b&cp=AA518&did=865122031741024&aid=dd296732460a1ac0"],"c_rpt":[],"d_rpt":[],"dc_rpt":[],"i_rpt":[],"a_rpt":[],"o_rpt":[],"ad_pack":"banner","ad_ver":"","ss_delay":50000,"vsb":true,"dlsign":true,"logo":true,"is_act":"1","ci":"1","in_broser":false,"cl":1,"bb_area":false,"aicnf":[]}}};
-     String dgfly="{\n" +
-             "\t\"cnf\": {\n" +
-             "\t\t\"dgfly\": {\n" +
-             "\t\t\t\"adtype\": \"bb_appstore\",\n" +
-             "\t\t\t\"name\": \"QQ\",\n" +
-             "\t\t\t\"show_type\": \"bb_carousel_appstore\",\n" +
-             "\t\t\t\"icon_img\": \"\",\n" +
-             "\t\t\t\"ad_img\": [],\n" +
-             "\t\t\t\"desc\": \"请尽快充电呀|畅玩无忧呀|肆不忌惮呀\",\n" +
-             "\t\t\t\"w\": 1280,\n" +
-             "\t\t\t\"h\": 720,\n" +
-             "\t\t\t\"s_dur\": 60000,\n" +
-             "\t\t\t\"down_url\": \"\",\n" +
-             "\t\t\t\"dplnk\": \"\",\n" +
-             "\t\t\t\"rtp\": false,\n" +
-             "\t\t\t\"rtp1\": false,\n" +
-             "\t\t\t\"ia\": 3,\n" +
-             "\t\t\t\"s_rpt\": [],\n" +
-             "\t\t\t\"c_rpt\": [],\n" +
-             "\t\t\t\"d_rpt\": [],\n" +
-             "\t\t\t\"dc_rpt\": [],\n" +
-             "\t\t\t\"i_rpt\": [],\n" +
-             "\t\t\t\"a_rpt\": [],\n" +
-             "\t\t\t\"o_rpt\": [],\n" +
-             "\t\t\t\"ad_pack\": \"\",\n" +
-             "\t\t\t\"ad_ver\": \"\",\n" +
-             "\t\t\t\"vsb\": true,\n" +
-             "\t\t\t\"dlsign\": true,\n" +
-             "\t\t\t\"logo\": true,\n" +
-             "\t\t\t\"is_act\": \"1\",\n" +
-             "\t\t\t\"ci\": \"1\",\n" +
-             "\t\t\t\"in_broser\": false,\n" +
-             "\t\t\t\"cl\": 1,\n" +
-             "\t\t\t\"bb_area\": false,\n" +
-             "\t\t\t\"market\": \"Maapi\",\n" +
-             "\t\t\t\"ss_delay\": 10000\n" +
-             "\t\t}\n" +
-             "\t}\n" +
-             "}";
+        String dgfly = "{\n" +
+                "\t\"cnf\": {\n" +
+                "\t\t\"dgfly\": {\n" +
+                "\t\t\t\"adtype\": \"bb_appstore\",\n" +
+                "\t\t\t\"name\": \"QQ\",\n" +
+                "\t\t\t\"show_type\": \"bb_carousel_appstore\",\n" +
+                "\t\t\t\"icon_img\": \"\",\n" +
+                "\t\t\t\"ad_img\": [],\n" +
+                "\t\t\t\"desc\": \"请尽快充电呀|畅玩无忧呀|肆不忌惮呀\",\n" +
+                "\t\t\t\"w\": 1280,\n" +
+                "\t\t\t\"h\": 720,\n" +
+                "\t\t\t\"s_dur\": 60000,\n" +
+                "\t\t\t\"down_url\": \"\",\n" +
+                "\t\t\t\"dplnk\": \"\",\n" +
+                "\t\t\t\"rtp\": false,\n" +
+                "\t\t\t\"rtp1\": false,\n" +
+                "\t\t\t\"ia\": 3,\n" +
+                "\t\t\t\"s_rpt\": [],\n" +
+                "\t\t\t\"c_rpt\": [],\n" +
+                "\t\t\t\"d_rpt\": [],\n" +
+                "\t\t\t\"dc_rpt\": [],\n" +
+                "\t\t\t\"i_rpt\": [],\n" +
+                "\t\t\t\"a_rpt\": [],\n" +
+                "\t\t\t\"o_rpt\": [],\n" +
+                "\t\t\t\"ad_pack\": \"\",\n" +
+                "\t\t\t\"ad_ver\": \"\",\n" +
+                "\t\t\t\"vsb\": true,\n" +
+                "\t\t\t\"dlsign\": true,\n" +
+                "\t\t\t\"logo\": true,\n" +
+                "\t\t\t\"is_act\": \"1\",\n" +
+                "\t\t\t\"ci\": \"1\",\n" +
+                "\t\t\t\"in_broser\": false,\n" +
+                "\t\t\t\"cl\": 1,\n" +
+                "\t\t\t\"bb_area\": false,\n" +
+                "\t\t\t\"market\": \"Maapi\",\n" +
+                "\t\t\t\"ss_delay\": 10000\n" +
+                "\t\t}\n" +
+                "\t}\n" +
+                "}";
         AppStoreHandler.getInstance().show(getApplicationContext(), dgfly, new AppStoreHandler.OnStoreDestroyListener() {
             @Override
             public void onDestroy() {
@@ -361,7 +362,7 @@ String dgfly="{\n" +
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             boolean b = Settings.canDrawOverlays(MainActivity.this);
-            Log.d("ldl", "onResume"+b );
+            Log.d("ldl", "onResume" + b);
         }
 
     }
@@ -371,7 +372,7 @@ String dgfly="{\n" +
         super.onStart();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             boolean b = Settings.canDrawOverlays(MainActivity.this);
-            Log.d("ldl", "onStart"+b );
+            Log.d("ldl", "onStart" + b);
         }
     }
 
@@ -380,7 +381,7 @@ String dgfly="{\n" +
         super.onStop();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             boolean b = Settings.canDrawOverlays(MainActivity.this);
-            Log.d("ldl", "onStop"+b );
+            Log.d("ldl", "onStop" + b);
         }
     }
 
@@ -389,7 +390,8 @@ String dgfly="{\n" +
         super.onPause();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             boolean b = Settings.canDrawOverlays(MainActivity.this);
-            Log.d("ldl", "onPause"+b );
+            Log.d("ldl", "onPause" + b);
         }
     }
 }
+*/

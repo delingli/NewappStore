@@ -1,6 +1,7 @@
 package com.bbx.appstore.windows;
 
 import android.content.Context;
+import android.view.WindowManager;
 
 import com.bbx.appstore.base.Config;
 import com.bbx.appstore.base.SConstant;
@@ -34,7 +35,7 @@ public class AppStoreHandler {
         UserPresentReceiverManager.receiverPresentStatus(context);
     }
 
-    public void show(Context context, String data, OnStoreDestroyListener listener) {
+    public void show(Context context, String data, int i, OnStoreDestroyListener listener) {
         StoreADInfo info = StoreADInfo.getStoreADInfo(data);
         if (!SConstant.AD_TYPE.equals(info.adtype)) return;
         Config.market = info.market;
@@ -90,7 +91,25 @@ public class AppStoreHandler {
                 WindowHandler.getInstance().showStoreNewPowerView(info);
                 break;
             case SConstant.SHOW_TYPE_INSERT:
-                WindowHandler.getInstance().showView(info, CID_INSERT);
+                switch (i) {
+                    case 1:
+                        WindowHandler.getInstance().showStoreKnotView(info);
+                        break;
+                    case 2:
+                        WindowHandler.getInstance().showStoreAntlersView(info);
+                        break;
+                    case 3:
+                        WindowHandler.getInstance().showStoreSnowManView(info);
+                        break;
+                    case 4:
+                        WindowHandler.getInstance().showStoreGlassView(info);
+                        break;
+                    case 5:
+                        WindowHandler.getInstance().showStoreCrownView(info);
+                        break;
+
+                }
+//                WindowHandler.getInstance().showView(info, CID_INSERT);
                 break;
             case SConstant.SHOW_TYPE_NEW_BOTTOM:
                 WindowHandler.getInstance().showView(info, CID_NEW_BOTTOM);

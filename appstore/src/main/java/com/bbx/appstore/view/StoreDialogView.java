@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.os.Build;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -94,7 +95,11 @@ public class StoreDialogView extends IView {
 //                            DManager.getInstance(mContext).startDownload(mContext, dmBean);
                             DownloadLoopAndInstall.getInstance().addDownloadLoop(mContext, dmBean);
                             if (DOWNLOAD == ApkUtils.checkNeedDownload(mContext, dmBean.packageName, Integer.valueOf(dmBean.versionCode))) {
-                                Report.getInstance().reportListUrl(mContext, recommendAppInfo.rtp_method, info.rpt_cd, recommendAppInfo.flag_replace, new ClickInfo(x,y));
+                                Report.getInstance().reportListUrl(mContext, recommendAppInfo.rtp_method, info.rpt_cd, recommendAppInfo.flag_replace, new ClickInfo(x, y));
+                                if (DBG) {
+                                    Log.d(SConstant.TAG, "StoreDialogView 点击上报成功...");
+                                }
+
                             }
                         }
                     }

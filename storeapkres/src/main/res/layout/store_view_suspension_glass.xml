@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:visibility="gone"
+    android:id="@+id/fl_suspension_glass_content"
+    android:layout_height="wrap_content">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="135dp">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/iv_suspension_glass_close"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right" />
 
         <LinearLayout
@@ -27,8 +29,8 @@
                 android:scaleType="centerCrop" />
 
             <RelativeLayout
-                android:layout_width="60dp"
                 android:id="@+id/rl_suspension_glass_bg"
+                android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center_horizontal">
 

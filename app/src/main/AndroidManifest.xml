@@ -23,7 +23,7 @@
             android:value="AA511" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".TestActivity"
             android:configChanges="layoutDirection|fontScale|locale"
             android:screenOrientation="portrait">
             <intent-filter>
