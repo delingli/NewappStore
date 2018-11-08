@@ -137,7 +137,7 @@ public class WindowHandler {
         if (DBG) Log.e(TAG, "DB_STORE# showRepeatPlayView");
     }
 
-    /*------ 1 -------*/
+    /*------ 1 弃用 -------*/
     public void showStoreNotify(StoreADInfo info) { //需要外围传入数据
         cleanWindow();
         windowView = new StoreNotifyView(info);
